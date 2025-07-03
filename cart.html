@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart - Second-Hand Clothes</title>
+    <link rel="stylesheet" href="./full.css/home.css">
+    <link rel="stylesheet" href="./full.css/cart.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Header + Navbar -->
+    <section id="header">
+        <a href="home.html"><img src="img/logo.png" alt="logo" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a class="active" href="cart.html"><i class="fa-solid fa-bag-shopping"></i> Cart</a></li>
+                <li><a href="signin.html" id="signin-link">Sign in</a></li>
+                <li><a href="#" id="logout-link" style="display: none;">Logout</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart">
+        <h2>Your Cart</h2>
+        <div id="cart-container"></div>
+        <h3 id="total-price"></h3>
+        <button id="checkout-button" disabled>Checkout</button>
+    </section>
+
+    <!-- Modal chọn thanh toán -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <h3>Chọn phương thức thanh toán</h3>
+            <button id="bank-transfer-btn">Chuyển khoản</button>
+            <button id="cash-payment-btn">Thanh toán tiền mặt</button>
+            <button id="close-modal-btn">Hủy</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <h3>Đặt hàng thành công!</h3>
+            <p>Cảm ơn bạn đã mua hàng tại shop.</p>
+            <button id="success-close-btn">Đóng</button>
+        </div>
+    </div>
+   <script src="./full.js/cart.js"></script>
+</body>
+</html>

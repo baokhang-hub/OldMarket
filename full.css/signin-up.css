@@ -1,0 +1,350 @@
+/* signin.css - Xịn xò, hoành tráng, siêu tương tác */
+
+/* Reset & base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Montserrat', 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(120deg, #74ABE2 0%, #5563DE 50%, #FFB86C 100%);
+    background-size: 200% 200%;
+    animation: bgMove 8s ease-in-out infinite alternate;
+    overflow: hidden;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Animated floating shapes */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.18;
+    z-index: 0;
+    pointer-events: none;
+}
+body::before {
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, #5563DE 60%, #74ABE2 100%);
+    top: -80px; left: -120px;
+    animation: float1 10s infinite alternate;
+}
+body::after {
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, #FFB86C 60%, #FFD6A0 100%);
+    bottom: -60px; right: -80px;
+    animation: float2 12s infinite alternate;
+}
+@keyframes float1 {
+    0% { transform: translateY(0) scale(1);}
+    100% { transform: translateY(40px) scale(1.08);}
+}
+@keyframes float2 {
+    0% { transform: translateY(0) scale(1);}
+    100% { transform: translateY(-30px) scale(1.12);}
+}
+
+.signin-container {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 48px 40px 38px 40px;
+    border-radius: 32px;
+    box-shadow: 0 16px 64px 0 rgba(55,64,200,0.22), 0 2px 8px 0 rgba(255,184,108,0.08);
+    width: 96%;
+    max-width: 440px;
+    animation: fadeInUp 1s cubic-bezier(.68,-0.55,.27,1.55);
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+}
+
+.signin-container::before {
+    content: '';
+    position: absolute;
+    top: -70px; left: -70px;
+    width: 140px; height: 140px;
+    background: linear-gradient(135deg, #5563DE 60%, #74ABE2 100%);
+    border-radius: 50%;
+    opacity: 0.13;
+    z-index: 0;
+    filter: blur(2px);
+}
+.signin-container::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, #FFB86C 60%, #FFD6A0 100%);
+    border-radius: 50%;
+    opacity: 0.12;
+    z-index: 0;
+    filter: blur(1px);
+}
+
+#signin-form {
+    position: relative;
+    z-index: 2;
+}
+
+#signin-form h2 {
+    text-align: center;
+    color: #222;
+    margin-bottom: 26px;
+    font-size: 34px;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #5563DE, #FFB86C 80%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 1.2s;
+    text-shadow: 0 2px 8px rgba(85,99,222,0.10);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.input-group {
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.input-group label {
+    margin-bottom: 7px;
+    color: #5563DE;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    font-size: 16px;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.input-group input {
+    padding: 15px 48px 15px 16px;
+    border: 2.5px solid #e0e4fa;
+    border-radius: 14px;
+    transition: border 0.3s, box-shadow 0.3s, background 0.3s;
+    font-size: 18px;
+    background: #f8faff;
+    outline: none;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(85,99,222,0.04);
+}
+
+.input-group input:focus {
+    border-color: #5563DE;
+    box-shadow: 0 0 16px 2px rgba(85, 99, 222, 0.18);
+    background: #eef2ff;
+}
+
+.input-group input:valid {
+    border-color: #4CAF50;
+    background: #f0fff4;
+}
+
+.input-group input:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #e74c3c;
+    background: #fff0f0;
+}
+
+.input-group .input-icon {
+    position: absolute;
+    right: 18px;
+    top: 44px;
+    font-size: 22px;
+    color: #bbb;
+    pointer-events: none;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 3;
+}
+.input-group input:focus ~ .input-icon {
+    color: #5563DE;
+    transform: scale(1.15) rotate(-8deg);
+}
+.input-group input:valid ~ .input-icon {
+    color: #4CAF50;
+    transform: scale(1.1) rotate(8deg);
+}
+.input-group input:invalid:not(:focus):not(:placeholder-shown) ~ .input-icon {
+    color: #e74c3c;
+    transform: scale(1.1) rotate(-8deg);
+}
+
+/* Animated gradient border on focus */
+.input-group input:focus {
+    border-image: linear-gradient(90deg, #5563DE, #FFB86C) 1;
+}
+
+/* Submit button */
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(90deg, #5563DE 0%, #FFB86C 100%);
+    color: #fff;
+    font-size: 19px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    box-shadow: 0 6px 24px rgba(85,99,222,0.13), 0 2px 8px rgba(255,184,108,0.08);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 12px;
+    position: relative;
+    overflow: hidden;
+}
+button[type="submit"]::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s cubic-bezier(.68,-0.55,.27,1.55), height 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+    z-index: 0;
+}
+button[type="submit"]:active::after {
+    width: 180%;
+    height: 400%;
+}
+button[type="submit"]:hover, button[type="submit"]:focus {
+    background: linear-gradient(90deg, #FFB86C 0%, #5563DE 100%);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 12px 32px rgba(55,64,200,0.18), 0 2px 8px rgba(255,184,108,0.10);
+}
+button[type="submit"]:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Social login (optional, if you add) */
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin: 18px 0 8px 0;
+}
+.social-login button {
+    border: none;
+    background: #f8faff;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #5563DE;
+    box-shadow: 0 2px 8px rgba(85,99,222,0.08);
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+.social-login button:hover {
+    background: #5563DE;
+    color: #fff;
+    transform: scale(1.12);
+}
+
+/* Signup link */
+.signup-link {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 16px;
+    color: #333;
+    animation: fadeIn 1.3s;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+.signup-link a {
+    color: #5563DE;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s, text-decoration 0.3s;
+    margin-left: 6px;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 2px;
+}
+.signup-link a:hover, .signup-link a:focus {
+    color: #FFB86C;
+    text-decoration: underline wavy;
+    border-bottom: 2px solid #FFB86C;
+}
+
+/* Fade in up animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Hiệu ứng rung khi nhập sai */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+    100% { transform: translateX(0); }
+}
+.input-group input:invalid:not(:focus):not(:placeholder-shown) {
+    animation: shake 0.35s;
+}
+
+/* Tooltip báo lỗi */
+.input-group input:invalid:not(:focus):not(:placeholder-shown)::after {
+    content: attr(data-error);
+    position: absolute;
+    left: 0; top: 100%;
+    background: linear-gradient(90deg, #e74c3c 70%, #FFB86C 100%);
+    color: #fff;
+    font-size: 13px;
+    padding: 4px 14px;
+    border-radius: 8px;
+    margin-top: 6px;
+    white-space: nowrap;
+    z-index: 4;
+    opacity: 0.97;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(231,76,60,0.10);
+    animation: fadeIn 0.4s;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .signin-container {
+        padding: 20px 4vw 16px 4vw;
+        border-radius: 16px;
+        max-width: 99vw;
+    }
+    #signin-form h2 {
+        font-size: 22px;
+    }
+    button[type="submit"] {
+        font-size: 15px;
+    }
+    .input-group input {
+        font-size: 15px;
+        padding: 12px 40px 12px 12px;
+    }
+    .input-group .input-icon {
+        font-size: 18px;
+        top: 36px;
+    }
+}

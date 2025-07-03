@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop - Second-Hand Clothes</title>
+    <link rel="stylesheet" href="./full.css/home.css">
+    <link rel="stylesheet" href="./full.css/shop.css">
+</head>
+<body>
+
+    <!-- Header + Navbar -->
+    <section id="header">
+        <a href="home.html"><img src="img/logo.png" alt="logo" class="logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="home.html">Home</a></li>
+                <li><a class="active" href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                <li><a href="signin.html" id="signin-link">Sign in</a></li>
+                <li><a href="home.html" id="logout-link" style="display: none;">Logout</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Search and Filter -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <button onclick="searchProducts()">Search</button>
+    </div>
+    <div class="filter-bar">
+        <select id="brandFilter" onchange="filterProducts()">
+            <option value="">All Brands</option>
+            <option value="Name Brand">Name Brand</option>
+            <option value="Vintage">Vintage</option>
+            <option value="Classic">Classic</option>
+        </select>
+        <select id="priceFilter" onchange="filterProducts()">
+            <option value="">All Prices</option>
+            <option value="low">Under $20</option>
+            <option value="mid">$20 - $50</option>
+            <option value="high">Above $50</option>
+        </select>
+        <label>
+            <input type="checkbox" id="inStockFilter" onchange="filterProducts()">
+            In Stock Only
+        </label>
+        <select id="sortSelect" onchange="sortProducts()">
+            <option value="">Sort By</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="star-desc">Rating: High → Low</option>
+            <option value="star-asc">Rating: Low → High</option>
+            <option value="name-asc">Name: A → Z</option>
+            <option value="name-desc">Name: Z → A</option>
+        </select>
+    </div>
+
+    <!-- Shop Section -->
+    <section id="product1" class="section-p1">
+        <h2>New Arrivals</h2>
+        <p>Old clothes - New style</p>
+        <div class="pro-container" id="productContainer">
+            <!-- Products will be rendered here by JS -->
+        </div>
+        <div class="pagination" id="pagination"></div>
+    </section>
+
+    <!-- Quick View Modal -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal-content" id="modalContent">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <!-- Product details will be injected here -->
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <footer id="footer" class="section-p1">
+        <div class="footer-col">
+            <img src="../index/img/logo.png" alt="logo" class="logo">
+            <p>
+                <strong>Address:</strong> 123 Main Street, City, Country<br>
+                <strong>Phone:</strong> +123 456 789<br>
+                <strong>Email:</strong> info@example.com
+            </p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>About</h4>
+            <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="delivery.html">Delivery Information</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms & Conditions</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>My Account</h4>
+            <ul>
+                <li><a href="signup-in/signin.html">Sign In</a></li>
+                <li><a href="cart.html">View Cart</a></li>
+                <li><a href="wishlist.html">My Wishlist</a></li>
+                <li><a href="order.html">Track My Order</a></li>
+                <li><a href="help.html">Help</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="app-links">
+                <img src="img/pay/app.jpg" alt="App Store">
+                <img src="img/pay/play.jpg" alt="Google Play">
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src="img/pay/pay.png" alt="Payment Methods">
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Old Market. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="https://kit.fontawesome.com/17082c6cda.js" crossorigin="anonymous"></script>
+    <script src="./full.js/shop.js"></script>
+</body>
+</html>
