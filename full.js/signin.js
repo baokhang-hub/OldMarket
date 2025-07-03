@@ -2,41 +2,54 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("signin-form");
     if (!form) return;
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const emailInput = document.getElementById("email");
-        const passwordInput = document.getElementById("password");
+        const email = document.getElementById("email")?.value.trim().toLowerCase();
+        const password = document.getElementById("password")?.value;
 
-        if (!emailInput || !passwordInput) {
-            alert("Form elements not found. Please reload the page.");
+        if (!email || !password) {
+            showMessage("Please fill in all fields.", "error");
             return;
         }
 
-        const email = emailInput.value.trim().toLowerCase();
-        const password = passwordInput.value;
-
-        let users = [];
         try {
-            users = JSON.parse(localStorage.getItem("users")) || [];
-        } catch (err) {
-            users = [];
-        }
+            const response = await fetch("php/signin.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            });
 
-        const user = users.find(
-            user =>
-                user.email &&
-                user.email.toLowerCase() === email &&
-                user.password === password
-        );
+            const result = await response.json();
 
-        if (user) {
-            alert(`Welcome back, ${user.fullname || "User"}!`);
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("loggedInUser", JSON.stringify(user));
-            window.location.href = "../index.html";
-        } else {
-            alert("Incorrect email or password. Please try again.");
+            if (result.status === "success") {
+                showMessage(`Welcome back, ${result.fullname}!`, "success");
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1500);
+            } else {
+                showMessage(result.message || "Login failed.", "error");
+            }
+        } catch (error) {
+            console.error(error);
+            showMessage("Error connecting to server.", "error");
         }
     });
+
+    function showMessage(message, type = 'error') {
+        const msgBox = document.getElementById("message");
+        if (!msgBox) return;
+
+        msgBox.className = '';
+        msgBox.classList.add(type);
+        msgBox.innerText = message;
+        msgBox.style.display = 'block';
+        msgBox.style.animation = 'slideDownFade 0.4s ease forwards';
+
+        setTimeout(() => {
+            msgBox.style.display = 'none';
+        }, 3000);
+    }
 });

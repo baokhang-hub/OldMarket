@@ -2,66 +2,63 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("signup-form");
     if (!form) return;
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const fullname = (document.getElementById("fullname")?.value || "").trim();
-        const email = (document.getElementById("email")?.value || "").trim();
-        const password = (document.getElementById("password")?.value || "").trim();
-        const confirmPassword = (document.getElementById("confirm-password")?.value || "").trim();
+        const fullname = document.getElementById("fullname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirm = document.getElementById("confirm-password").value;
 
-        // Basic validation
-        if (!fullname || !email || !password || !confirmPassword) {
-            alert("Please fill in all fields.");
+        // Kiểm tra đơn giản
+        if (!fullname || !email || !password || !confirm) {
+            showMessage("Please fill in all fields.", "error");
             return;
         }
 
-        // Email format validation
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            alert("Please enter a valid email address.");
+        if (password !== confirm) {
+            showMessage("Passwords do not match.", "error");
             return;
         }
 
-        if (password.length < 6) {
-            alert("Password must be at least 6 characters.");
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            alert("Passwords do not match. Please try again.");
-            return;
-        }
-
-        let users = [];
         try {
-            users = JSON.parse(localStorage.getItem("users")) || [];
-        } catch {
-            users = [];
+            const response = await fetch("php/sigup.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    fullname: fullname,
+                    email: email,
+                    password: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status === "success") {
+                showMessage(data.message, "success");
+                setTimeout(() => {
+                    window.location.href = "signin.html";
+                }, 2000);
+            } else {
+                showMessage(data.message || "Registration failed", "error");
+            }
+        } catch (err) {
+            console.error("Error:", err);
+            showMessage("Error connecting to server.", "error");
         }
-
-        const existingUser = users.find(user => user.email === email);
-
-        if (existingUser) {
-            alert("Email already registered. Please use a different email or sign in.");
-            return;
-        }
-
-        const newUser = {
-            fullname,
-            email,
-            password
-        };
-
-        users.push(newUser);
-        try {
-            localStorage.setItem("users", JSON.stringify(users));
-        } catch {
-            alert("Registration failed due to storage error.");
-            return;
-        }
-
-        alert("Registration successful! You can now sign in.");
-        window.location.href = "signin.html";
     });
+
+    function showMessage(message, type = "success") {
+        const msg = document.getElementById("message");
+        msg.className = ""; // reset class
+        msg.classList.add(type);
+        msg.innerText = message;
+        msg.style.display = "block";
+        msg.style.animation = "slideDownFade 0.4s ease forwards";
+        setTimeout(() => {
+            msg.style.display = "none";
+        }, 3000);
+    }
 });
