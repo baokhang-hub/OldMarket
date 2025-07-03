@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert(`Welcome back, ${user.fullname || "User"}!`);
             localStorage.setItem("isLoggedIn", "true");
             localStorage.setItem("loggedInUser", JSON.stringify(user));
-            window.location.href = "../home.html";
+            window.location.href = "../index.html";
         } else {
             alert("Incorrect email or password. Please try again.");
         }
