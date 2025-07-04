@@ -1,40 +1,69 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const user = JSON.parse(localStorage.getItem("loggedInUser") || "{}");
 
     const signinLink = document.getElementById("signin-link");
+    const signupBtn = document.getElementById("signup-btn");
     const profileLink = document.getElementById("profile-link");
+    const dropdownMenu = document.getElementById("user-dropdown");
+    const signoutLink = document.getElementById("signout-link");
 
-    if (isLoggedIn === "true") {
-        // Ẩn nút Sign in
+    // Hiển thị/ẩn Sign In và User Icon + Fullname
+    if (isLoggedIn) {
         if (signinLink) signinLink.style.display = "none";
-        // Hiện nút Profile
-        if (profileLink) profileLink.style.display = "block";
+        if (profileLink) {
+            profileLink.style.display = "inline-block";
+            profileLink.innerHTML = `<i class="fa-solid fa-user"></i> ${user.fullname || ""}`;
+        }
     } else {
-        if (signinLink) signinLink.style.display = "block";
+        if (signinLink) signinLink.style.display = "inline-block";
         if (profileLink) profileLink.style.display = "none";
     }
-});
 
-// Xử lý nút Sign up (nếu có)
-document.addEventListener("DOMContentLoaded", function () {
-    const signupBtn = document.getElementById("signup-btn");
+    // Điều hướng nút Sign Up
     if (signupBtn) {
         signupBtn.addEventListener("click", function () {
             window.location.href = "../index/signup-in/signup.html";
         });
     }
-});
 
-// Xử lý thêm sản phẩm vào giỏ
-document.addEventListener("DOMContentLoaded", function () {
+    // Toggle dropdown menu
+    if (profileLink && dropdownMenu) {
+        profileLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!profileLink.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.style.display = "none";
+            }
+        });
+    }
+
+    // Xử lý Sign Out
+    if (signoutLink) {
+        signoutLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("loggedInUser");
+
+            if (signinLink) signinLink.style.display = "inline-block";
+            if (profileLink) profileLink.style.display = "none";
+            if (dropdownMenu) dropdownMenu.style.display = "none";
+
+            // Chuyển về index.html sau khi đăng xuất
+            window.location.href = "index.html";
+        });
+    }
+
+    // Thêm vào giỏ hàng
     const addToCartButtons = document.querySelectorAll(".add-to-cart");
-
     addToCartButtons.forEach(button => {
         button.addEventListener("click", function (e) {
             e.preventDefault();
 
-            const isLoggedIn = localStorage.getItem("isLoggedIn");
-            if (isLoggedIn !== "true") {
+            if (!isLoggedIn) {
                 alert("Bạn cần đăng nhập trước khi thêm sản phẩm vào giỏ.");
                 localStorage.setItem("redirectAfterLogin", "cart.html");
                 window.location.href = "../index/signup-in/signin.html";
@@ -48,8 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const price = parseFloat(priceText.replace(/[^\d.]/g, '')) || 0;
 
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
             const existing = cart.find(item => item.name === name && item.price === price && item.imgSrc === imgSrc);
+
             if (existing) {
                 existing.quantity += 1;
             } else {

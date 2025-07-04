@@ -1,8 +1,8 @@
-
+        // Sample product data with more fields
         const products = [
             {
                 id: 1,
-                img: "img/f1.jpg",
+                img: "../img/f1.jpg",
                 brand: "Name Brand",
                 name: "Vintage Denim Jacket",
                 price: 35,
@@ -13,7 +13,7 @@
             },
             {
                 id: 2,
-                img: "img/f1.jpg",
+                img: "../index/img/products/f1.jpg",
                 brand: "Vintage",
                 name: "Retro Floral Dress",
                 price: 22,
@@ -113,8 +113,7 @@
         ];
 
         // Wishlist and Cart (demo, localStorage can be used for persistence)
-        let wishlist = [];
-        // Load cart from localStorage or initialize empty
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         // Pagination
@@ -140,7 +139,7 @@
 
             pageProducts.forEach(product => {
                 container.innerHTML += `
-                <div class="pro" data-brand="${product.brand}" data-price="${product.price}">
+                <div class="pro" data-brand="${product.brand}" data-price="${product.price}" tabindex="0" aria-label="${product.name}" onkeydown="handleProductKeydown(event, ${product.id})">
                     ${product.isNew ? `<span class="badge">NEW</span>` : ""}
                     ${!product.inStock ? `<span class="badge" style="background:#e74c3c;color:#fff;left:auto;right:10px;">OUT</span>` : ""}
                     <img src="${product.img}" alt="product">
@@ -153,7 +152,7 @@
                         </div>
                         <h4>$${product.price}</h4>
                     </div>
-                    <button class="wishlist-btn${wishlist.includes(product.id) ? ' active' : ''}" title="Add to Wishlist" onclick="toggleWishlist(${product.id}, event)">
+                    <button class="wishlist-btn${wishlist.includes(product.id) ? ' active' : ''}" title="Add to Wishlist" aria-pressed="${wishlist.includes(product.id)}" onclick="toggleWishlist(${product.id}, event)">
                         <i class="fa${wishlist.includes(product.id) ? 's' : 'r'} fa-heart"></i>
                     </button>
                     <button class="cart" title="Add to Cart" onclick="addToCart(${product.id}, event)" ${!product.inStock ? 'disabled style="background:#ccc;cursor:not-allowed;"' : ''}>
@@ -164,6 +163,7 @@
                 `;
             });
             renderPagination(list.length, totalPages);
+            addProductHoverPreview();
         }
 
         function renderPagination(total, totalPages) {
@@ -173,15 +173,40 @@
                 return;
             }
             let html = '';
-            for (let i = 1; i <= totalPages; i++) {
-                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+
+            // Previous button
+            html += `<button ${currentPage === 1 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''} onclick="goToPage(${currentPage - 1})" aria-label="Previous page">&laquo; Prev</button>`;
+
+            // Page numbers (show max 5, with ... if needed)
+            let start = Math.max(1, currentPage - 2);
+            let end = Math.min(totalPages, currentPage + 2);
+
+            if (start > 1) {
+                html += `<button onclick="goToPage(1)">1</button>`;
+                if (start > 2) html += `<span style="padding:0 6px;">...</span>`;
             }
+            for (let i = start; i <= end; i++) {
+                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})" aria-label="Page ${i}">${i}</button>`;
+            }
+            if (end < totalPages) {
+                if (end < totalPages - 1) html += `<span style="padding:0 6px;">...</span>`;
+                html += `<button onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+
+            // Next button
+            html += `<button ${currentPage === totalPages ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''} onclick="goToPage(${currentPage + 1})" aria-label="Next page">Next &raquo;</button>`;
+
             pag.innerHTML = html;
         }
 
         function goToPage(page) {
+            const container = document.getElementById('productContainer');
+            const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
+            if (page < 1 || page > totalPages) return;
             currentPage = page;
             renderProducts(sortedProducts);
+            // Scroll to product list on page change (optional UX)
+            if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // Search functionality
@@ -235,7 +260,7 @@
             const product = products.find(p => p.id === id);
             if (!product) return;
             document.getElementById('modalContent').innerHTML = `
-                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <span class="close-modal" onclick="closeModal()" tabindex="0" aria-label="Close">&times;</span>
                 <img src="${product.img}" alt="${product.name}" style="width:100%;border-radius:6px;">
                 <h3 style="margin:15px 0 5px 0;">${product.name}</h3>
                 <p><strong>Brand:</strong> ${product.brand}</p>
@@ -252,17 +277,27 @@
                 ${!product.inStock ? '<p style="color:#e74c3c;margin-top:10px;">Out of Stock</p>' : ''}
             `;
             document.getElementById('quickViewModal').style.display = 'flex';
+            // Focus for accessibility
+            setTimeout(() => {
+                document.getElementById('modalContent').querySelector('.close-modal').focus();
+            }, 100);
+            // Close modal on ESC
+            document.addEventListener('keydown', escModalHandler);
         }
         function closeModal() {
             document.getElementById('quickViewModal').style.display = 'none';
+            document.removeEventListener('keydown', escModalHandler);
+        }
+        function escModalHandler(e) {
+            if (e.key === 'Escape') closeModal();
         }
 
         // Add to Cart (save to localStorage and redirect)
         function addToCart(id, e) {
-            e && e.stopPropagation && e.stopPropagation();
+            if (e && e.stopPropagation) e.stopPropagation();
             const product = products.find(p => p.id === id);
             if (!product || !product.inStock) {
-                showToast('Sorry, this product is out of stock.');
+                showToast('Sorry, this product is out of stock.', 'error');
                 return;
             }
             // Check if product already in cart, if not add with quantity 1
@@ -280,20 +315,25 @@
                 });
             }
             localStorage.setItem('cart', JSON.stringify(cart));
-            // Redirect to cart.html after adding
-            window.location.href = "../index/cart.html";
+            showToast('Added to cart', 'success');
+            // Offer to go to cart or continue shopping
+            showActionToast('Added to cart', [
+                { text: 'Go to Cart', action: () => window.location.href = "cart.html" },
+                { text: 'Continue Shopping', action: () => hideActionToast() }
+            ]);
         }
 
         // Wishlist
         function toggleWishlist(id, e) {
-            e && e.stopPropagation && e.stopPropagation();
+            if (e && e.stopPropagation) e.stopPropagation();
             if (wishlist.includes(id)) {
                 wishlist = wishlist.filter(pid => pid !== id);
-                showToast('Removed from wishlist');
+                showToast('Removed from wishlist', 'info');
             } else {
                 wishlist.push(id);
-                showToast('Added to wishlist');
+                showToast('Added to wishlist', 'success');
             }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
             renderProducts(sortedProducts);
             // Update modal button if open
             if (document.getElementById('quickViewModal').style.display === 'flex') {
@@ -302,11 +342,96 @@
         }
 
         // Toast notification
-        function showToast(msg) {
+        function showToast(msg, type = 'info') {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
-            toast.classList.add('show');
+            toast.className = 'toast show';
+            if (type === 'success') toast.style.background = '#27ae60';
+            else if (type === 'error') toast.style.background = '#e74c3c';
+            else toast.style.background = '#222';
             setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Action Toast (with buttons)
+        function showActionToast(msg, actions) {
+            let toast = document.getElementById('action-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'action-toast';
+                toast.className = 'toast';
+                toast.style.bottom = '70px';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<span>${msg}</span> ` + actions.map((a, i) =>
+                `<button style="margin-left:10px;padding:6px 14px;border-radius:4px;border:none;cursor:pointer;background:#f7b731;color:#222;" onclick="window._actionToastActions[${i}]()">${a.text}</button>`
+            ).join('');
+            window._actionToastActions = actions.map(a => a.action);
+            toast.classList.add('show');
+            setTimeout(() => hideActionToast(), 4000);
+        }
+        function hideActionToast() {
+            const toast = document.getElementById('action-toast');
+            if (toast) toast.classList.remove('show');
+        }
+
+        // Hover preview (tooltip)
+        function addProductHoverPreview() {
+            const proEls = document.querySelectorAll('.pro');
+            proEls.forEach(el => {
+                el.addEventListener('mouseenter', function () {
+                    const id = getProductIdFromEl(el);
+                    if (!id) return;
+                    showProductTooltip(el, id);
+                });
+                el.addEventListener('mouseleave', function () {
+                    hideProductTooltip();
+                });
+            });
+        }
+        function getProductIdFromEl(el) {
+            const name = el.querySelector('h5')?.textContent;
+            const prod = products.find(p => p.name === name);
+            return prod ? prod.id : null;
+        }
+        function showProductTooltip(el, id) {
+            let tooltip = document.getElementById('product-tooltip');
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.id = 'product-tooltip';
+                tooltip.style.position = 'absolute';
+                tooltip.style.zIndex = 9999;
+                tooltip.style.background = '#fff';
+                tooltip.style.border = '1px solid #ccc';
+                tooltip.style.borderRadius = '8px';
+                tooltip.style.boxShadow = '0 2px 12px rgba(0,0,0,0.13)';
+                tooltip.style.padding = '12px 18px';
+                tooltip.style.fontSize = '15px';
+                tooltip.style.pointerEvents = 'none';
+                document.body.appendChild(tooltip);
+            }
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+            tooltip.innerHTML = `
+                <strong>${prod.name}</strong><br>
+                <span>${prod.brand}</span><br>
+                <span>${prod.desc}</span><br>
+                <span>Price: $${prod.price}</span>
+            `;
+            const rect = el.getBoundingClientRect();
+            tooltip.style.top = (window.scrollY + rect.top - tooltip.offsetHeight - 10) + 'px';
+            tooltip.style.left = (window.scrollX + rect.left + 10) + 'px';
+            tooltip.style.display = 'block';
+        }
+        function hideProductTooltip() {
+            const tooltip = document.getElementById('product-tooltip');
+            if (tooltip) tooltip.style.display = 'none';
+        }
+
+        // Keyboard accessibility for product cards
+        function handleProductKeydown(e, id) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                openModal(id);
+            }
         }
 
         // Initial render
@@ -326,4 +451,5 @@
         window.searchProducts = searchProducts;
         window.filterProducts = filterProducts;
         window.sortProducts = sortProducts;
- 
+        window.handleProductKeydown = handleProductKeydown;
+        window.hideActionToast = hideActionToast;

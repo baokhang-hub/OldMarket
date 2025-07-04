@@ -136,3 +136,5 @@
         updateAuthUI();
         alert('You have logged out.');
     };
+
+    
