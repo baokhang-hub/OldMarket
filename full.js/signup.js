@@ -2,11 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("signup-form");
     if (!form) return;
 
-    form.addEventListener("submit", async function (e) {
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
 
         const fullname = document.getElementById("fullname").value.trim();
-        const email = document.getElementById("email").value.trim();
+        const email = document.getElementById("email").value.trim().toLowerCase();
         const password = document.getElementById("password").value;
         const confirm = document.getElementById("confirm-password").value;
 
@@ -21,8 +21,30 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // 🧪 Dữ liệu người dùng lưu localStorage để test
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const existingUser = users.find(u => u.email === email);
+        if (existingUser) {
+            showMessage("Email is already registered.", "error");
+            return;
+        }
+
+        // Thêm người dùng mới
+        const newUser = { fullname, email, password };
+        users.push(newUser);
+        localStorage.setItem("users", JSON.stringify(users));
+
+        showMessage("Registration successful!", "success");
+
+        setTimeout(() => {
+            window.location.href = "signin.html";
+        }, 2000);
+
+        // ❌ Bỏ phần gửi qua PHP, bật lại khi dùng thật:
+        /*
         try {
-            const response = await fetch("php/sigup.php", {
+            const response = await fetch("php/signup.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -48,10 +70,13 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error:", err);
             showMessage("Error connecting to server.", "error");
         }
+        */
     });
 
     function showMessage(message, type = "success") {
         const msg = document.getElementById("message");
+        if (!msg) return;
+
         msg.className = ""; // reset class
         msg.classList.add(type);
         msg.innerText = message;

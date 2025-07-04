@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("signin-form");
     if (!form) return;
 
-    form.addEventListener("submit", async function (e) {
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
 
         const email = document.getElementById("email")?.value.trim().toLowerCase();
@@ -13,6 +13,24 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // 🧪 Đăng nhập tạm bằng localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("loggedInUser", JSON.stringify(user));
+            showMessage(`Welcome back, ${user.fullname}!`, "success");
+
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1500);
+        } else {
+            showMessage("Incorrect email or password", "error");
+        }
+
+        // ❌ Khi dùng PHP thực, dùng đoạn này thay thế:
+        /*
         try {
             const response = await fetch("php/signin.php", {
                 method: "POST",
@@ -25,7 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const result = await response.json();
 
             if (result.status === "success") {
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("loggedInUser", JSON.stringify(result));
                 showMessage(`Welcome back, ${result.fullname}!`, "success");
+
                 setTimeout(() => {
                     window.location.href = "index.html";
                 }, 1500);
@@ -36,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error(error);
             showMessage("Error connecting to server.", "error");
         }
+        */
     });
 
     function showMessage(message, type = 'error') {
