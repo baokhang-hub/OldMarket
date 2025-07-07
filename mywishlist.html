@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>My Wishlist</title>
+  <link rel="stylesheet" href="./full.css/home.css">
+  <link rel="stylesheet" href="./full.css/shop.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header giống như các trang khác -->
+  <section id="header">
+    <a href="home.html"><img src="img/logo.png" alt="logo" class="logo"></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+        <li><a id="signin-link" href="signin.html">Sign in</a></li>
+        <li class="dropdown">
+          <a href="#" id="profile-link" style="display: none;"><i class="fa-solid fa-user"></i></a>
+          <ul class="dropdown-menu" id="user-dropdown" style="display: none;">
+            <li><a class="dropdown-link" href="#">Track My Order</a></li>
+            <li><a class="dropdown-link active" href="wishlist.html">My Wishlist</a></li>
+            <li><a class="dropdown-link" href="sell.html">Sell</a></li>
+            <li><a class="dropdown-link" href="#" id="signout-link">Sign Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Danh sách wishlist -->
+  <section id="product1" class="section-p1">
+    <h2>My Wishlist</h2>
+    <div class="pro-container" id="wishlistContainer"></div>
+  </section>
+
+  <script src="./full.js/signin-signout.js"></script>
+  <script src="./full.js/mywishlist.js"></script>
+</body>
+</html>

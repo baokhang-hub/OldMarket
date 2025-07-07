@@ -1,3 +1,4 @@
+<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,20 +6,17 @@
     <title>Cart - Second-Hand Clothes</title>
     <link rel="stylesheet" href="./full.css/home.css">
     <link rel="stylesheet" href="./full.css/cart.css">
-    <script src="script.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <!-- Header + Navbar -->
-    <section id="header">
-        <a href="home.html"><img src="img/logo.png" alt="logo" class="logo"></a>
-        <div>
-            <ul id="navbar">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a class="active" href="cart.html"><i class="fa-solid fa-bag-shopping"></i> Cart</a></li>
-                <!-- Link đăng nhập: sẽ hiện khi chưa login -->
+   <section id="header">
+        <a href="#"><img src="img/logo.png" alt="logo" class="logo"></a>
+        <ul id="navbar">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="cart.html" class="active"><i class="fa-solid fa-bag-shopping"></i></a></li>
+            <!-- Link đăng nhập: sẽ hiện khi chưa login -->
                 <li><a id="signin-link" href="signin.html">Sign in</a></li>
 
                 <!-- Icon user + dropdown: sẽ hiện khi đã login -->
@@ -26,34 +24,88 @@
                     <a href="#" id="profile-link" style="display: none;"><i class="fa-solid fa-user"></i> </a>
                        <ul class="dropdown-menu" id="user-dropdown" style="display: none;">
                        <li><a class="dropdown-link" href="#">Track My Order</a></li>
-                       <li><a class="dropdown-link" href="#">My Wishlist</a></li>
-                       <li><a class="dropdown-link" href="#">Sell</a></li>
+                       <li><a class="dropdown-link" href="mywishlist.html">My Wishlist</a></li>
+                       <li><a class="dropdown-link" href="sell.html">Sell</a></li>
                        <li><a class="dropdown-link" href="#" id="signout-link">Sign Out</a></li>
                        </ul>
                 </li>
-            </ul>
-        </div>
+        </ul>
     </section>
+
 
     <!-- Cart Section -->
     <section id="cart">
         <h2>Your Cart</h2>
         <div id="cart-container"></div>
-        <h3 id="total-price"></h3>
+        <h3 id="total-price">Tổng cộng: 0₫</h3>
         <button id="checkout-button" disabled>Checkout</button>
+         <div style="margin-bottom: 12px;">
+            <input type="checkbox" id="select-all"> <label for="select-all">Chọn tất cả</label>
+        </div>
     </section>
 
-    <!-- Modal chọn thanh toán -->
     <div id="payment-modal" class="modal">
         <div class="modal-content">
-            <h3>Chọn phương thức thanh toán</h3>
-            <button id="bank-transfer-btn">Chuyển khoản</button>
-            <button id="cash-payment-btn">Thanh toán tiền mặt</button>
-            <button id="close-modal-btn">Hủy</button>
+            <span class="close-button" id="close-payment-modal-x">&times;</span> <h3>Chọn phương thức thanh toán</h3>
+            <div class="payment-methods-buttons"> <button id="bank-transfer-btn">Chuyển khoản</button>
+                <button id="cash-payment-btn">Thanh toán khi nhận hàng</button>
+                <button id="close-modal-btn">Hủy</button>
+            </div>
+
+            <div id="bank-info" style="display: none;">
+                <div class="bank-transfer-layout">
+                    <div class="bank-info-details">
+                        <h4>Thông tin chuyển khoản:</h4>
+                        <p>🏦 Ngân hàng: <strong>Vietcombank</strong></p>
+                        <p>🔢 Số tài khoản: <strong>1037835714</strong></p>
+                        <p>👤 Chủ tài khoản: <strong>Old Market</strong></p>
+                        <p>💬 Nội dung chuyển khoản: <strong>SĐT + Tên người mua</strong></p>
+                        
+                        <h4>Thông tin người chuyển khoản:</h4>
+                        <label for="sender-name">👤 Tên người chuyển:</label>
+                        <input type="text" id="sender-name" placeholder="VD: Nguyễn Văn A">
+                        
+                        <label for="sender-bank">🏦 Số tài khoản người chuyển:</label>
+                        <input type="text" id="sender-bank" placeholder="VD: 0123456789">
+                        
+                        <label for="sender-phone">📞 Số điện thoại:</label>
+                        <input type="tel" id="sender-phone" placeholder="VD: 0901234567">
+                        
+                        <label for="sender-address">📍 Địa chỉ nhận hàng:</label>
+                        <input type="text" id="sender-address" placeholder="VD:123/45/67 ...">
+                        
+                        <div style="margin-top: 10px;">
+                            <input type="checkbox" id="confirm-transfer-checkbox">
+                            <label for="confirm-transfer-checkbox"> Tôi xác nhận đã chuyển tiền thành công</label>
+                        </div>
+                        
+                        <button id="confirm-bank">Xác nhận chuyển khoản</button>
+                    </div>
+
+                    <div class="qr-code-section">
+                        <img src="img/qr.jpg" alt="QR chuyển khoản">
+                        <p>Mã QR để thanh toán</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cash-form" style="display: none;">
+                <h4>Thông tin nhận hàng:</h4>
+                <label for="name">Họ tên:</label>
+                <input type="text" id="name" required>
+                
+                <label for="phone">Số điện thoại:</label>
+                <input type="tel" id="phone" required>
+                
+                <label for="address">Địa chỉ nhận hàng:</label>
+                <textarea id="address" rows="3" required></textarea>
+                
+                <button id="confirm-cash">Xác nhận giao hàng</button>
+
+                </div>
         </div>
     </div>
 
-    <!-- Success Modal -->
     <div id="success-modal" class="modal">
         <div class="modal-content">
             <h3>Đặt hàng thành công!</h3>
@@ -61,7 +113,8 @@
             <button id="success-close-btn">Đóng</button>
         </div>
     </div>
-   <script src="./full.js/cart.js"></script>
-   <script src="./full.js/signin-signout.js"></script>
+
+    <script src="./full.js/cart.js"></script>
+    <script src="./full.js/signin-signout.js"></script>
 </body>
 </html>

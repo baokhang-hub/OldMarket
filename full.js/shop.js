@@ -292,36 +292,32 @@
             if (e.key === 'Escape') closeModal();
         }
 
-        // Add to Cart (save to localStorage and redirect)
-        function addToCart(id, e) {
-            if (e && e.stopPropagation) e.stopPropagation();
-            const product = products.find(p => p.id === id);
-            if (!product || !product.inStock) {
-                showToast('Sorry, this product is out of stock.', 'error');
-                return;
-            }
-            // Check if product already in cart, if not add with quantity 1
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    img: product.img,
-                    quantity: 1
-                });
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            showToast('Added to cart', 'success');
-            // Offer to go to cart or continue shopping
-            showActionToast('Added to cart', [
-                { text: 'Go to Cart', action: () => window.location.href = "cart.html" },
-                { text: 'Continue Shopping', action: () => hideActionToast() }
-            ]);
-        }
+        // Add to Cart (save to localStorage)
+function addToCart(id, e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const product = products.find(p => p.id === id);
+    if (!product || !product.inStock) {
+        showToast('Sorry, this product is out of stock.', 'error');
+        return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existing = cart.find(item => item.id === id);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            img: product.img,
+            quantity: 1
+        });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    showToast('Added to cart', 'success'); // ✅ chỉ thông báo đơn giản
+}
 
         // Wishlist
         function toggleWishlist(id, e) {
@@ -453,3 +449,4 @@
         window.sortProducts = sortProducts;
         window.handleProductKeydown = handleProductKeydown;
         window.hideActionToast = hideActionToast;
+        localStorage.setItem("products", JSON.stringify(products));
