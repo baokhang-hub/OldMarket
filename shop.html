@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +6,14 @@
     <title>Shop - Second-Hand Clothes</title>
     <link rel="stylesheet" href="./full.css/home.css">
     <link rel="stylesheet" href="./full.css/shop.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
     <!-- Header + Navbar -->
     <section id="header">
-        <a href="home.html"><img src="img/logo.png" alt="logo" class="logo"></a>
+        <a href="#"><img src="img/logo.png" alt="logo" class="logo"></a>
+
         <div>
             <ul id="navbar">
                 <li><a href="index.html">Home</a></li>
@@ -22,7 +24,7 @@
                 <li><a id="signin-link" href="signin.html">Sign in</a></li>
 
                 <!-- Icon user + dropdown: sẽ hiện khi đã login -->
-                <li class="dropdown" class="active">
+                <li class="dropdown">
                     <a href="#" id="profile-link" style="display: none;"><i class="fa-solid fa-user"></i> </a>
                        <ul class="dropdown-menu" id="user-dropdown" style="display: none;">
                        <li><a class="dropdown-link" href="#">Track My Order</a></li>
@@ -39,8 +41,21 @@
     <div class="search-bar">
         <input type="text" id="searchInput" placeholder="Search products...">
         <button onclick="searchProducts()">Search</button>
+        <label>
+            <input type="checkbox" id="inStockFilter" onchange="filterProducts()">
+            In Stock Only
+        </label>
+        </div>
     </div>
+    <!-- Filter Bar: Thêm phân khúc sản phẩm -->
     <div class="filter-bar">
+        <select id="segmentFilter" onchange="filterProducts()">
+            <option value="">All Segments</option>
+            <option value="binhdan">Affordable</option>
+            <option value="hieu">Branded</option>
+            <option value="hieu-auction">Branded (Auction)</option>
+            <option value="hieu-noauction">Branded (Non-Auction)</option>
+        </select>
         <select id="brandFilter" onchange="filterProducts()">
             <option value="">All Brands</option>
             <option value="Name Brand">Name Brand</option>
@@ -53,10 +68,6 @@
             <option value="mid">$20 - $50</option>
             <option value="high">Above $50</option>
         </select>
-        <label>
-            <input type="checkbox" id="inStockFilter" onchange="filterProducts()">
-            In Stock Only
-        </label>
         <select id="sortSelect" onchange="sortProducts()">
             <option value="">Sort By</option>
             <option value="price-asc">Price: Low → High</option>
@@ -67,7 +78,6 @@
             <option value="name-desc">Name: Z → A</option>
         </select>
     </div>
-
     <!-- Shop Section -->
     <section id="product1" class="section-p1">
         <h2>New Arrivals</h2>
@@ -83,6 +93,14 @@
         <div class="modal-content" id="modalContent">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <!-- Product details will be injected here -->
+        </div>
+    </div>
+
+    <!-- Auction Modal -->
+    <div class="modal" id="auctionModal">
+        <div class="modal-content" id="auctionModalContent">
+            <span class="close-modal" onclick="closeAuctionModal()" tabindex="0" aria-label="Close">&times;</span>
+            <!-- Auction details will be injected here -->
         </div>
     </div>
 
@@ -136,8 +154,10 @@
             <p>&copy; 2024 Old Market. All rights reserved.</p>
         </div>
     </footer>
+
     <script src="https://kit.fontawesome.com/17082c6cda.js" crossorigin="anonymous"></script>
+    <script src="./full.js/home.js"></script>
     <script src="./full.js/shop.js"></script>
-    <script src="./full.js/signin-signout.js"></script>
+    <script src=".full.js/signin-signout.js" ></script>
 </body>
 </html>

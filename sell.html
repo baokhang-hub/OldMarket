@@ -1,39 +1,38 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Đăng bán đồ cũ</title>
-  <link rel="stylesheet" href="./full.css/home.css">
-  <link rel="stylesheet" href="./full.css/sell.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="./full.css/home.css"/>
+  <link rel="stylesheet" href="./full.css/sell.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-     <section id="header">
-        <a href="#"><img src="img/logo.png" alt="logo" class="logo"></a>
+  <!-- ========== HEADER ========== -->
+  <section id="header">
+    <a href="#"><img src="img/logo.png" alt="logo" class="logo"></a>
+    <div>
+      <ul id="navbar">
+        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+        <li><a id="signin-link" href="signin.html">Sign in</a></li>
+        <li class="dropdown">
+          <a href="#" id="profile-link" style="display: none;"><i class="fa-solid fa-user"></i></a>
+          <ul class="dropdown-menu" id="user-dropdown" style="display: none;">
+            <li><a class="dropdown-link" href="#">Track My Order</a></li>
+            <li><a class="dropdown-link" href="mywishlist.html">My Wishlist</a></li>
+            <li><a class="dropdown-link active" href="sell.html">Sell</a></li>
+            <li><a class="dropdown-link" href="#" id="signout-link">Sign Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-        <div>
-            <ul id="navbar">
-                <li><a class="active" href="index.html">Home</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
-                <!-- Link đăng nhập: sẽ hiện khi chưa login -->
-                <li><a id="signin-link" href="signin.html">Sign in</a></li>
-
-                <!-- Icon user + dropdown: sẽ hiện khi đã login -->
-                <li class="dropdown">
-                    <a href="#" id="profile-link" style="display: none;"><i class="fa-solid fa-user"></i> </a>
-                       <ul class="dropdown-menu" id="user-dropdown" style="display: none;">
-                       <li><a class="dropdown-link" href="#">Track My Order</a></li>
-                       <li><a class="dropdown-link" href="mywishlist.html">My Wishlist</a></li>
-                       <li><a class="dropdown-link active" href="sell.html">Sell</a></li>
-                       <li><a class="dropdown-link" href="#" id="signout-link">Sign Out</a></li>
-                       </ul>
-                </li>
-            </ul>
-        </div>
-    </section>
+  <!-- ========== FORM ĐĂNG TIN ========== -->
   <div class="post-container">
     <div class="left-section">
       <h3>Hình ảnh sản phẩm</h3>
@@ -42,6 +41,7 @@
 
     <div class="right-section">
       <form>
+        <!-- Danh mục -->
         <div class="form-group">
           <label>Danh mục tin đăng *</label>
           <div id="category-select" class="category-select-box">-- Chọn danh mục --</div>
@@ -49,6 +49,7 @@
           <input type="hidden" id="subcategory">
         </div>
 
+        <!-- Tình trạng -->
         <div class="form-group">
           <label for="condition">Tình trạng *</label>
           <select id="condition" required>
@@ -58,27 +59,32 @@
           </select>
         </div>
 
+        <!-- Giá bán -->
         <div class="form-group">
           <label for="price">Giá bán *</label>
           <input type="text" id="price" placeholder="Từ 10.000 đến 200.000.000 đồng" required>
         </div>
 
+        <!-- Tiêu đề -->
         <div class="form-group">
           <label for="title">Tiêu đề *</label>
           <input type="text" id="title" placeholder="VD: iPhone 12 Pro Max 128GB, còn mới 98%" required>
         </div>
 
+        <!-- Mô tả -->
         <div class="form-group">
           <label for="description">Mô tả chi tiết *</label>
           <textarea id="description" placeholder="Mô tả chi tiết về sản phẩm, tình trạng sử dụng, phụ kiện đi kèm..." required></textarea>
         </div>
 
+        <!-- Địa chỉ -->
         <div class="form-group">
-          <label for="address">Địa chỉ *</label>
-          <input type="text" id="address" name="address" required placeholder="VD: 12 Nguyễn Huệ, Quận 1, TP.HCM">
+          <label>Địa chỉ *</label>
+          <div id="select-address" class="address-select-box">-- Chọn địa chỉ --</div>
+          <input type="hidden" id="address" name="address">
         </div>
 
-
+        <!-- Nút đăng -->
         <div class="actions">
           <button type="submit">Đăng tin</button>
         </div>
@@ -86,14 +92,35 @@
     </div>
   </div>
 
-  <!-- Popup chọn danh mục -->
+  <!-- ========== POPUP CHỌN DANH MỤC ========== -->
   <div id="popup" class="popup-overlay">
     <div class="popup-content">
-      <h4>Chọn danh mục</h4>
-      <div class="popup-category-list" id="category-list"></div>
+      <h4>Chọn Danh Mục</h4>
+      <div id="category-list" class="popup-category-list"></div>
     </div>
   </div>
-  <script src="./full.js/sell.js"></script>
-  <script src="./full.js/signin-signout.js"></script>
+
+  <!-- ========== POPUP CHỌN ĐỊA CHỈ ========== -->
+  <div id="address-popup" class="popup-overlay">
+  <div class="popup-content">
+    <h4 id="address-step-title">Chọn Tỉnh/Thành</h4>
+    <div id="address-options"></div>
+
+    <!-- Ô nhập địa chỉ cụ thể -->
+    <div class="form-group" id="specific-address-group" style="display: none; margin-top: 10px;">
+      <label for="specific-address">Địa chỉ cụ thể *</label>
+      <input type="text" id="specific-address" placeholder="VD: 123 Lê Lợi, P. Bến Thành" />
+    </div>
+
+    <div class="popup-actions">
+      <button id="back-address">← Quay lại</button>
+      <button id="confirm-address" style="display: none;">Xác nhận</button>
+    </div>
+  </div>
+</div>
+  <!-- ========== SCRIPT ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./full.js/sell.js" defer></script>
+  <script src="./full.js/signin-signout.js" defer></script>
 </body>
 </html>
