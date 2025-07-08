@@ -68,66 +68,57 @@ function renderPreview() {
   if (imageFiles.length === 0) {
     const hint = document.createElement('div');
     hint.className = 'upload-hint-box';
-    hint.innerHTML = '<i class="fas fa-camera"></i><div>ĐĂNG TỪ 01 ĐẾN 06 HÌNH</div>';
+    hint.innerHTML = '<i class="fas fa-camera"></i><div>ĐĂNG ẢNH Ở ĐÂY</div>';
     previewArea.appendChild(hint);
     return;
   }
 
-  imageFiles.forEach((file, index) => {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const box = document.createElement('div');
-      box.className = 'preview-box';
-      const img = document.createElement('img');
-      img.src = e.target.result;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const box = document.createElement('div');
+    box.className = 'preview-box';
+    const img = document.createElement('img');
+    img.src = e.target.result;
 
-      const removeBtn = document.createElement('button');
-      removeBtn.textContent = '×';
-      removeBtn.className = 'remove-btn';
-      removeBtn.onclick = () => {
-        imageFiles.splice(index, 1);
-        renderPreview();
-      };
-
-      box.appendChild(img);
-      box.appendChild(removeBtn);
-      previewArea.appendChild(box);
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = '×';
+    removeBtn.className = 'remove-btn';
+    removeBtn.onclick = () => {
+      imageFiles = [];
+      renderPreview();
     };
-    reader.readAsDataURL(file);
-  });
 
-  if (imageFiles.length < 6) {
-    const addBox = document.createElement('label');
-    addBox.className = 'add-more-box';
-    addBox.textContent = '+';
-    addBox.htmlFor = 'images';
-    previewArea.appendChild(addBox);
-  }
+    box.appendChild(img);
+    box.appendChild(removeBtn);
+    previewArea.appendChild(box);
+  };
+  reader.readAsDataURL(imageFiles[0]);
 }
 
 const imageInput = document.createElement('input');
 imageInput.type = 'file';
 imageInput.accept = 'image/*';
-imageInput.multiple = true;
+imageInput.multiple = false; // CHỈ CHỌN 1 HÌNH
 imageInput.id = 'images';
 imageInput.style.display = 'none';
 document.body.appendChild(imageInput);
 
 imageInput.addEventListener('change', () => {
-  const files = Array.from(imageInput.files);
-  imageFiles = imageFiles.concat(files).slice(0, 6);
+  const files = Array.from(imageInput.files).slice(0, 1); // CHỈ 1 FILE
+  imageFiles = files;
   renderPreview();
   imageInput.value = '';
 });
 
 previewArea.addEventListener('click', function (e) {
-  if (e.target.closest('.upload-hint-box') || e.target.closest('.add-more-box')) {
+  if (e.target.closest('.upload-hint-box')) {
     e.preventDefault();
     imageInput.click();
   }
 });
 
 renderPreview();
+
 
 // ================== KIỂM TRA GIÁ BÁN ==================
 const priceInput = document.getElementById('price');
@@ -303,4 +294,68 @@ addressPopup.addEventListener("click", (e) => {
   if (e.target.classList.contains("popup-overlay")) {
     addressPopup.style.display = "none";
   }
+});
+
+// ================== LƯU BÀI ĐĂNG VÀO localStorage ==================
+const sellForm = document.getElementById("sell-form");
+
+sellForm.addEventListener("submit", function (e) {
+  e.preventDefault(); // Ngăn form gửi thật
+
+  // Lấy dữ liệu từ form
+  const category = categoryInput.value;
+  const subcategory = subcategoryInput.value;
+  const condition = document.getElementById("condition").value;
+  const price = priceInput.value;
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const address = addressInput.value;
+
+  if (!category || !subcategory || !condition || !price || !title || !description || !address || imageFiles.length === 0) {
+    alert("Vui lòng điền đầy đủ thông tin và chọn ảnh.");
+    return;
+  }
+
+  const file = imageFiles[0];
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const imageBase64 = e.target.result;
+
+    // Lấy thông tin người dùng đang đăng nhập
+    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+    const userName = currentUser.fullname || "";
+    const userEmail = currentUser.email || "";
+
+    const postData = {
+      category,
+      subcategory,
+      condition,
+      price,
+      title,
+      description,
+      address,
+      image: imageBase64,
+      user: {
+        fullname: userName,
+        email: userEmail
+      },
+      createdAt: new Date().toISOString(),
+      status: "pending"
+    };
+
+    const existingPosts = JSON.parse(localStorage.getItem("pending_posts") || "[]");
+    existingPosts.push(postData);
+    localStorage.setItem("pending_posts", JSON.stringify(existingPosts));
+
+    alert("Bài đăng của bạn đã được gửi, đang chờ admin duyệt.");
+
+    sellForm.reset();
+    categorySelect.textContent = "-- Chọn danh mục --";
+    selectAddressBox.textContent = "-- Chọn địa chỉ --";
+    imageFiles = [];
+    renderPreview();
+  };
+
+  reader.readAsDataURL(file); // Đọc ảnh
 });
