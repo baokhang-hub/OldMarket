@@ -241,6 +241,7 @@ function renderOptions(data, type) {
   });
 }
 
+// Đăng tin 
 selectAddressBox.addEventListener("click", openAddressPopup);
 
 backAddressBtn.addEventListener("click", () => {
@@ -296,69 +297,76 @@ addressPopup.addEventListener("click", (e) => {
   }
 });
 
-// ================== LƯU BÀI ĐĂNG VÀO localStorage ==================
 const sellForm = document.getElementById("sell-form");
 
 sellForm.addEventListener("submit", function (e) {
-  e.preventDefault(); // Ngăn form gửi thật
+  e.preventDefault();
 
-  // Lấy dữ liệu từ form
   const category = categoryInput.value;
   const subcategory = subcategoryInput.value;
   const condition = document.getElementById("condition").value;
-  // Lấy giá trị từ priceInput và loại bỏ tất cả các dấu chấm (.)
   const cleanedPriceString = priceInput.value.replace(/\./g, '');
-  // Chuyển đổi chuỗi đã làm sạch thành số thực
-  const price = parseFloat(cleanedPriceString); 
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
+  const price = parseFloat(cleanedPriceString);
+  const quantity = parseInt(document.getElementById("quantity").value);
+  const title = document.getElementById("title").value.trim();
+  const description = document.getElementById("description").value.trim();
   const address = addressInput.value;
 
-  if (!category || !subcategory || !condition || !price || !title || !description || !address || imageFiles.length === 0) {
+  if (!category || !subcategory || !condition || !price || !quantity || !title || !description || !address || imageFiles.length === 0) {
     alert("Vui lòng điền đầy đủ thông tin và chọn ảnh.");
     return;
   }
 
-  const file = imageFiles[0];
-
   const reader = new FileReader();
-  reader.onload = function (e) {
-    const imageBase64 = e.target.result;
+reader.onload = function (e) {
+  const imageBase64 = e.target.result;
 
-    // Lấy thông tin người dùng đang đăng nhập
-    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
-    const userName = currentUser.fullname || "";
-    const userEmail = currentUser.email || "";
+  const postData = {
+    category,
+    subcategory,
+    condition,
+    price,
+    quantity,
+    title,
+    description,
+    address,
+    image: imageBase64   // ✅ Sửa chỗ này
+  };
 
-    const postData = {
-      category,
-      subcategory,
-      condition,
-      price,
-      title,
-      description,
-      address,
-      image: imageBase64,
-      user: {
-        fullname: userName,
-        email: userEmail
-      },
-      createdAt: new Date().toISOString(),
-      status: "pending"
-    };
-
-    const existingPosts = JSON.parse(localStorage.getItem("pending_posts") || "[]");
-    existingPosts.push(postData);
-    localStorage.setItem("pending_posts", JSON.stringify(existingPosts));
-
-    alert("Bài đăng của bạn đã được gửi, đang chờ admin duyệt.");
-
+  axios.post("php/sell.php", postData, {
+    withCredentials: true
+  })
+  .then(res => {
+    alert("Đăng tin thành công!");
     sellForm.reset();
     categorySelect.textContent = "-- Chọn danh mục --";
     selectAddressBox.textContent = "-- Chọn địa chỉ --";
     imageFiles = [];
     renderPreview();
-  };
+  })
+  .catch(err => {
+    const message = err.response?.data?.message || "Có lỗi xảy ra khi đăng tin.";
+    alert("Lỗi: " + message);
+  });
+};
 
-  reader.readAsDataURL(file); // Đọc ảnh
+
+  reader.readAsDataURL(imageFiles[0]);
+});
+
+
+// ================== NÚT TĂNG / GIẢM SỐ LƯỢNG ==================
+function changeQty(delta) {
+  const input = document.getElementById('quantity');
+  let current = parseInt(input.value) || 1;
+  current += delta;
+  input.value = Math.max(1, Math.min(current, 1000));
+}
+
+// Khi người dùng nhập tay
+document.getElementById('quantity').addEventListener('input', function () {
+  let value = parseInt(this.value) || 1;
+  if (value < 1) value = 1;
+  if (value > 1000) value = 1000;
+  this.value = value;
 });

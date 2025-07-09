@@ -3,7 +3,7 @@ session_start();
 
 // Kiểm tra đăng nhập
 if (!isset($_SESSION['user_id'])) {
-    echo "Bạn cần đăng nhập để đăng bài.";
+    echo "<script>alert('Bạn cần đăng nhập để đăng bài.'); window.location.href = 'signin.html';</script>";
     exit();
 }
 
@@ -16,13 +16,14 @@ if ($conn->connect_error) {
 }
 
 // Nhận dữ liệu
-$category = $_POST['category'] ?? '';
+$category    = $_POST['category'] ?? '';
 $subcategory = $_POST['subcategory'] ?? '';
-$condition = $_POST['condition'] ?? '';
-$price = $_POST['price'] ?? '';
-$title = $_POST['title'] ?? '';
-$description = $_POST['description'] ?? '';
-$address = $_POST['address'] ?? '';
+$condition   = $_POST['condition'] ?? '';
+$price       = floatval(str_replace('.', '', $_POST['price'] ?? '0'));
+$quantity    = intval($_POST['quantity'] ?? '1');
+$title       = trim($_POST['title'] ?? '');
+$description = trim($_POST['description'] ?? '');
+$address     = $_POST['address'] ?? '';
 
 // Xử lý ảnh
 $imageNames = [];
@@ -48,12 +49,12 @@ if (!empty($_FILES['images']['name'][0])) {
 
 $images = implode(",", $imageNames);
 
-// Lưu vào bảng `pending_posts`
-$stmt = $conn->prepare("INSERT INTO pending_posts 
-    (user_id, category, subcategory, condition_status, price, title, description, address, images, created_at) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+// Lưu vào bảng `products`
+$stmt = $conn->prepare("INSERT INTO products 
+    (user_id, category, subcategory, `condition`, price, quantity, title, description, address, images, status, created_at) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())");
 
-$stmt->bind_param("isssdssss", $user_id, $category, $subcategory, $condition, $price, $title, $description, $address, $images);
+$stmt->bind_param("isssdissss", $user_id, $category, $subcategory, $condition, $price, $quantity, $title, $description, $address, $images);
 
 if ($stmt->execute()) {
     echo "<script>alert('Đăng bài thành công, đang chờ duyệt'); window.location.href = 'index.html';</script>";

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("signup-form");
     if (!form) return;
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const fullname = document.getElementById("fullname").value.trim();
@@ -21,30 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // 🧪 Dữ liệu người dùng lưu localStorage để test
-        const users = JSON.parse(localStorage.getItem("users")) || [];
-
-        const existingUser = users.find(u => u.email === email);
-        if (existingUser) {
-            showMessage("Email is already registered.", "error");
-            return;
-        }
-
-        // Thêm người dùng mới
-        const newUser = { fullname, email, password };
-        users.push(newUser);
-        localStorage.setItem("users", JSON.stringify(users));
-
-        showMessage("Registration successful!", "success");
-
-        setTimeout(() => {
-            window.location.href = "signin.html";
-        }, 2000);
-
-        // ❌ Bỏ phần gửi qua PHP, bật lại khi dùng thật:
-        /*
+        // Gửi dữ liệu tới PHP
         try {
-            const response = await fetch("php/signup.php", {
+            const response = await fetch("php/sigup.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -52,13 +31,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: JSON.stringify({
                     fullname: fullname,
                     email: email,
-                    password: password
+                    password: password,
+                    "confirm-password": confirm
                 })
             });
 
             const data = await response.json();
 
-            if (data.status === "success") {
+            if (response.ok && data.status === "success") {
                 showMessage(data.message, "success");
                 setTimeout(() => {
                     window.location.href = "signin.html";
@@ -70,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error:", err);
             showMessage("Error connecting to server.", "error");
         }
-        */
     });
 
     function showMessage(message, type = "success") {
