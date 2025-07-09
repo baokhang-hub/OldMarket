@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Điều hướng nút Sign Up
     if (signupBtn) {
         signupBtn.addEventListener("click", function () {
-            window.location.href = "../index/signup-in/signup.html";
+            window.location.href = "signup.html";
         });
     }
 
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!isLoggedIn) {
                 alert("Bạn cần đăng nhập trước khi thêm sản phẩm vào giỏ.");
                 localStorage.setItem("redirectAfterLogin", "cart.html");
-                window.location.href = "../index/signup-in/signin.html";
+                window.location.href = "signin.html";
                 return;
             }
 
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             localStorage.setItem("cart", JSON.stringify(cart));
             alert(`${name} đã được thêm vào giỏ.`);
-            window.location.href = "../index/cart.html";
+            window.location.href = "cart.html";
         });
     });
 });

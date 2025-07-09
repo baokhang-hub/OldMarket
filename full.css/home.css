@@ -112,6 +112,12 @@ button.white:hover {
     padding: 28px 90px;
 }
 
+#header .logo {
+    width: 100px;
+    height: auto;
+    filter: drop-shadow(0 2px 12px #08817840);
+}
+
 #navbar {
     display: flex;
     align-items: center;
@@ -347,6 +353,14 @@ button.white:hover {
 #feature .fe-box:nth-child(5) h6{ background-color: rgb(238, 144, 211); }
 #feature .fe-box:nth-child(6) h6{ background-color: rgb(238, 216, 144); }
 
+#feature .fe-box img {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s, box-shadow 0.3s;   
+}
+
 /* Product Section */
 #product1 {
     text-align: center;
@@ -377,6 +391,7 @@ button.white:hover {
 }
 #product1 .pro img {
     width: 100%;
+    height: 70%;
     border-radius: 20px;
 }
 #product1 .pro .des {
@@ -578,7 +593,7 @@ button.white:hover {
     align-items: flex-start;
     background-size: cover;
     background-position: center;
-    background-image: url(../img/banner3-1.jpg);
+    background-image: url(../img/winter.jpg);
     height: 30vh;
     padding: 15px;
     position: relative;
@@ -587,10 +602,10 @@ button.white:hover {
     border-radius: 10px;
 }
 #banner3 .banner-box2 {
-    background-image: url(../img/hero4.jpg);
+    background-image: url(../img/summer.jpg);
 }
 #banner3 .banner-box3 {
-    background-image: url(../img/banner3-1.jpg);
+    background-image: url(../img/spring.jpg);
 }
 #banner3 .banner-box:hover {
     transform: scale(1.02);
@@ -763,6 +778,14 @@ button.white:hover {
     box-shadow: 0 6px 24px #e67e2240;
     transform: translateY(-4px) scale(1.03);
 }
+
+#footer .footer-col img {
+    width: 90px;
+    height: auto;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 2px 12px #08817840);
+    transition: filter 0.3s, transform 0.3s;
+}
 #footer .logo {
     width: 160px;
     margin-bottom: 22px;
@@ -927,15 +950,39 @@ button.white:hover {
     font-weight: 500;
     transition: color 0.3s;
 }
-#footer .footer-bottom p span {
-    color: #e67e22;
+#footer .footer-bottom a {
+    font-size: 50px;
     font-weight: 700;
-    animation: footerRainbow 5s linear infinite;
-    background: linear-gradient(90deg, #e67e22, #27ae60, #3498db, #e67e22 90%);
+    background: linear-gradient(270deg, #e67e22, #27ae60, #3498db, #9b59b6, #e67e22);
+    background-size: 400% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+    animation: footerRainbow 8s ease infinite;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+#footer .footer-bottom a:hover {
+    opacity: 0.8;
+}
+#footer .footer-bottom a:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px #e67e2240;
+    border-radius: 4px;
+}
+
+@keyframes footerRainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* Footer Interactive Tooltip on Socials */

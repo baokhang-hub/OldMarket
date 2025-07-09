@@ -22,7 +22,7 @@
         <li class="dropdown">
           <a href="#" id="profile-link" style="display: none;"><i class="fa-solid fa-user"></i></a>
           <ul class="dropdown-menu" id="user-dropdown" style="display: none;">
-            <li><a class="dropdown-link" href="#">Track My Order</a></li>
+            <!-- <li><a class="dropdown-link" href="#">Track My Order</a></li> -->
             <li><a class="dropdown-link" href="mywishlist.html">My Wishlist</a></li>
             <li><a class="dropdown-link active" href="sell.html">Sell</a></li>
             <li><a class="dropdown-link" href="#" id="signout-link">Sign Out</a></li>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="right-section">
-      <form id="sell-form" enctype="multipart/form-data">
+      <form id="sell-form">
         <!-- Danh mục -->
         <div class="form-group">
           <label>Danh mục tin đăng *</label>
@@ -60,17 +60,6 @@
             <option value="used">Đã sử dụng</option>
           </select>
         </div>
-        
-      <!-- Số lượng -->
-        <div class="form-group">
-          <label for="quantity">Số lượng *</label>
-          <div class="quantity-wrapper">
-            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
-            <input type="number" id="quantity" name="quantity" min="1" max="1000" value="1" required />
-            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
-          </div>
-        </div>
-
 
         <!-- Giá bán -->
         <div class="form-group">

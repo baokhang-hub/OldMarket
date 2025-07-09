@@ -9,7 +9,7 @@ const APPROVED_POSTS = JSON.parse(localStorage.getItem('approved_posts')) || [];
 const FIXED_PRODUCTS = [
 {
     id: 2001,
-    imgSrc: "img/products/tablet-1.jpg",
+    imgSrc: "../img/máy tính bảng.jpg",
     title: "Máy tính bảng Android 10 inch",
     description: "Màn hình IPS, RAM 4GB, pin 6000mAh.",
     brand: "TabX",
@@ -24,7 +24,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2002,
-    imgSrc: "img/products/phone-1.jpg",
+    imgSrc: "img/điện thoại thông minh 5G.jpg",
     title: "Điện thoại thông minh 5G",
     description: "Snapdragon, camera 64MP, pin 5000mAh.",
     brand: "VivaPhone",
@@ -39,7 +39,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2003,
-    imgSrc: "img/products/laptop-1.jpg",
+    imgSrc: "img/laptop văn phòng.jpg",
     title: "Laptop văn phòng mỏng nhẹ",
     description: "Core i5, SSD 512GB, màn hình 14 inch.",
     brand: "WorkBook",
@@ -54,7 +54,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2004,
-    imgSrc: "img/products/fridge.jpg",
+    imgSrc: "img/tủ lạnh inverter.jpg",
     title: "Tủ lạnh 2 cửa Inverter",
     description: "Tiết kiệm điện, dung tích 260L.",
     brand: "CoolMax",
@@ -69,7 +69,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2005,
-    imgSrc: "img/products/washing-machine.jpg",
+    imgSrc: "img/máy giặt cửa trước.jpg",
     title: "Máy giặt cửa trước 9kg",
     description: "Giặt hơi nước, chống nhăn hiệu quả.",
     brand: "WashPro",
@@ -84,7 +84,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2006,
-    imgSrc: "img/products/microwave.jpg",
+    imgSrc: "img/lo vi sóng điện tử.jpg",
     title: "Lò vi sóng điện tử 23L",
     description: "Nấu, rã đông và hâm nóng nhanh.",
     brand: "HeatX",
@@ -99,7 +99,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2007,
-    imgSrc: "img/products/book.jpg",
+    imgSrc: "img/sách nhà giả kim.jpg",
     title: "Sách kinh điển: Nhà giả kim",
     description: "Tác phẩm nổi tiếng của Paulo Coelho.",
     brand: "NXB Trẻ",
@@ -114,7 +114,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2008,
-    imgSrc: "img/products/guitar.jpg",
+    imgSrc: "img/nhạc cụ.jpg",
     title: "Đàn Guitar Acoustic",
     description: "Âm thanh ấm, gỗ thịt chất lượng.",
     brand: "Yamaha",
@@ -125,11 +125,11 @@ const FIXED_PRODUCTS = [
     isNew: true,
     auction: { enabled: false },
     segment: "hanghieu",
-    price: 1850000
+    price: 18500000
   },
   {
     id: 2009,
-    imgSrc: "img/products/stamp.jpg",
+    imgSrc: "img/tem.jpg",
     title: "Bộ sưu tập tem cổ Việt Nam",
     description: "Gồm 30 mẫu hiếm từ 1950-1980.",
     brand: "StampVN",
@@ -144,7 +144,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2010,
-    imgSrc: "img/products/shirt.jpg",
+    imgSrc: "img/quần áo.jpg",
     title: "Áo sơ mi nam tay dài",
     description: "Chất vải cotton thoáng mát.",
     brand: "FashionX",
@@ -159,7 +159,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2011,
-    imgSrc: "img/products/shoes.jpg",
+    imgSrc: "img/dày sneaker.jpg",
     title: "Giày sneaker thể thao nam",
     description: "Phong cách trẻ trung, đế cao su êm ái.",
     brand: "RunnerPro",
@@ -174,7 +174,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2012,
-    imgSrc: "img/products/handbag.jpg",
+    imgSrc: "img/túi xách nữ đeo chéo.jpg",
     title: "Túi xách nữ đeo chéo",
     description: "Thiết kế thời trang, chất liệu da PU.",
     brand: "LuxeBag",
@@ -189,7 +189,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2013,
-    imgSrc: "img/products/laptop-2.jpg",
+    imgSrc: "img/laptop gaming.jpg",
     title: "Laptop Gaming Ryzen 7",
     description: "Màn hình 144Hz, VGA GTX1650.",
     brand: "PowerGame",
@@ -204,7 +204,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2014,
-    imgSrc: "img/products/phone-2.jpg",
+    imgSrc: "img/iphone 13 pro max.jpg",
     title: "iPhone 13 Pro Max 128GB",
     description: "Mới 99%, pin khỏe, bảo hành 6 tháng.",
     brand: "Apple",
@@ -219,7 +219,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2015,
-    imgSrc: "img/products/guitar-electric.jpg",
+    imgSrc: "img/guitar.jpg",
     title: "Đàn Guitar điện Rock",
     description: "Âm thanh mạnh, phù hợp biểu diễn.",
     brand: "Fender",
@@ -234,7 +234,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2016,
-    imgSrc: "img/products/fridge-mini.jpg",
+    imgSrc: "img/tủ lạnh mini.jpg",
     title: "Tủ lạnh mini cho phòng ngủ",
     description: "Dung tích 50L, tiết kiệm điện.",
     brand: "MiniCool",
@@ -249,7 +249,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2017,
-    imgSrc: "img/products/shoes-female.jpg",
+    imgSrc: "img/dày cao gót.jpg",
     title: "Giày cao gót 7cm",
     description: "Thiết kế thanh lịch, dễ phối đồ.",
     brand: "Elegance",
@@ -264,7 +264,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2018,
-    imgSrc: "img/products/book2.jpg",
+    imgSrc: "img/7 thói quen thành đạt.jpg",
     title: "Sách kỹ năng: 7 thói quen thành đạt",
     description: "Cuốn sách nổi tiếng của Stephen Covey.",
     brand: "NXB Tổng hợp",
@@ -279,7 +279,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2019,
-    imgSrc: "img/products/microwave-2.jpg",
+    imgSrc: "img/lò vi sóng cơ 20l.jpg",
     title: "Lò vi sóng cơ 20L",
     description: "Giá rẻ, dễ sử dụng, phù hợp sinh viên.",
     brand: "QuickHeat",
@@ -294,7 +294,7 @@ const FIXED_PRODUCTS = [
   },
   {
     id: 2020,
-    imgSrc: "img/products/clothes-set.jpg",
+    imgSrc: "img/bộ đồ ở nhà.jpg",
     title: "Bộ đồ mặc nhà cotton nữ",
     description: "Mềm mại, thấm hút tốt, mặc mát mẻ.",
     brand: "HomeWear",
