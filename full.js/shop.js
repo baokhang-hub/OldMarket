@@ -1,284 +1,499 @@
 // shop.js - Modernized, Modular, and More Maintainable
 
 // --- Product Data ---
-const PRODUCTS = [
-    {
-        id: 1, img: "../index/img/products/f1.jpg", brand: "Name Brand", name: "Vintage Denim Jacket",
-        price: 35, stars: 5, desc: "Classic denim jacket, gently used, size M.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 35, endTime: Date.now() + 3600 * 1000, bids: [] }
-    },
-    {
-        id: 2, img: "../index/img/products/f1.jpg", brand: "Vintage", name: "Retro Floral Dress",
-        price: 22, stars: 4, desc: "Beautiful floral dress, perfect for summer.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 3, img: "../index/img/products/f3.jpg", brand: "Classic", name: "Woolen Sweater",
-        price: 18, stars: 4, desc: "Warm and cozy woolen sweater, size L.", inStock: false, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 4, img: "../index/img/products/f4.jpg", brand: "Name Brand", name: "Leather Boots",
-        price: 55, stars: 5, desc: "High-quality leather boots, barely worn.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 55, endTime: Date.now() + 7200 * 1000, bids: [] }
-    },
-    {
-        id: 5, img: "../index/img/products/f5.jpg", brand: "Vintage", name: "Corduroy Pants",
-        price: 28, stars: 3, desc: "Trendy corduroy pants, size S.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 6, img: "../index/img/products/f6.jpg", brand: "Classic", name: "Plaid Shirt",
-        price: 15, stars: 4, desc: "Comfortable plaid shirt, size M.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 7, img: "../index/img/products/f7.jpg", brand: "Name Brand", name: "Graphic Tee",
-        price: 12, stars: 3, desc: "Cool graphic tee, size L.", inStock: false, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 8, img: "../index/img/products/f8.jpg", brand: "Vintage", name: "Suede Skirt",
-        price: 40, stars: 5, desc: "Chic suede skirt, size M.", inStock: true, isNew: true,
-        auction: { enabled: false }
-    },
-    {
-        id: 9, img: "../index/img/products/f9.jpg", brand: "Classic", name: "Classic Trench Coat",
-        price: 65, stars: 5, desc: "Elegant trench coat, timeless style.", inStock: true, isNew: true,
-        auction: { enabled: false }
-    },
-    {
-        id: 10, img: "../index/img/products/f10.jpg", brand: "Name Brand", name: "Casual Hoodie",
-        price: 25, stars: 4, desc: "Soft and comfy hoodie, size XL.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 11, img: "../index/img/products/f11.jpg", brand: "Urban", name: "Slim Fit Jeans",
-        price: 32, stars: 4, desc: "Comfortable slim fit jeans, size M.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 12, img: "../index/img/products/f12.jpg", brand: "Classic", name: "Polo Shirt",
-        price: 20, stars: 4, desc: "Classic polo shirt, breathable fabric.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 13, img: "../index/img/products/f1.jpg", brand: "Name Brand", name: "Denim Shorts",
-        price: 18, stars: 3, desc: "Lightweight denim shorts for summer.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 14, img: "../index/img/products/f2.jpg", brand: "Vintage", name: "Boho Maxi Dress",
-        price: 45, stars: 5, desc: "Flowy bohemian maxi dress, size M.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 45, endTime: Date.now() + 5400 * 1000, bids: [] }
-    },
-    {
-        id: 15, img: "../index/img/products/f3.jpg", brand: "Classic", name: "Casual Sneakers",
-        price: 38, stars: 4, desc: "Stylish and comfy sneakers.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 16, img: "../index/img/products/f4.jpg", brand: "Urban", name: "Oversized Hoodie",
-        price: 28, stars: 4, desc: "Soft oversized hoodie for a relaxed look.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 17, img: "../index/img/products/f5.jpg", brand: "Vintage", name: "Flannel Shirt",
-        price: 22, stars: 4, desc: "Cozy flannel shirt, classic pattern.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 18, img: "../index/img/products/f6.jpg", brand: "Name Brand", name: "Leather Wallet",
-        price: 15, stars: 5, desc: "Compact leather wallet, high quality.", inStock: true, isNew: true,
-        auction: { enabled: false }
-    },
-    {
-        id: 19, img: "../index/img/products/f7.jpg", brand: "Classic", name: "Beanie Hat",
-        price: 10, stars: 4, desc: "Warm beanie for winter.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 20, img: "../index/img/products/f8.jpg", brand: "Vintage", name: "Silk Scarf",
-        price: 12, stars: 5, desc: "Elegant silk scarf, floral pattern.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 21, img: "../index/img/products/f9.jpg", brand: "Name Brand", name: "Sport Shorts",
-        price: 17, stars: 4, desc: "Breathable sport shorts for workouts.", inStock: true, isNew: true,
-        auction: { enabled: false }
-    },
-    {
-        id: 22, img: "../index/img/products/f10.jpg", brand: "Classic", name: "Linen Shirt",
-        price: 27, stars: 4, desc: "Lightweight linen shirt, casual wear.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 23, img: "../index/img/products/f11.jpg", brand: "Urban", name: "Jogger Pants",
-        price: 24, stars: 3, desc: "Comfortable jogger pants for daily use.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 24, img: "../index/img/products/f12.jpg", brand: "Vintage", name: "Knitted Cardigan",
-        price: 35, stars: 5, desc: "Soft knitted cardigan for layering.", inStock: false, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 25, img: "../index/img/products/f1.jpg", brand: "Classic", name: "Rain Jacket",
-        price: 42, stars: 5, desc: "Waterproof rain jacket, lightweight.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 42, endTime: Date.now() + 3600 * 1000, bids: [] }
-    },
-    {
-        id: 26, img: "../index/img/products/f2.jpg", brand: "Name Brand", name: "Cargo Pants",
-        price: 29, stars: 4, desc: "Durable cargo pants with pockets.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 27, img: "../index/img/products/f3.jpg", brand: "Vintage", name: "Velvet Dress",
-        price: 55, stars: 5, desc: "Elegant velvet dress for evenings.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 55, endTime: Date.now() + 4800 * 1000, bids: [] }
-    },
-    {
-        id: 28, img: "../index/img/products/f4.jpg", brand: "Urban", name: "Baseball Cap",
-        price: 14, stars: 4, desc: "Casual baseball cap for sunny days.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 29, img: "../index/img/products/f5.jpg", brand: "Classic", name: "Chelsea Boots",
-        price: 60, stars: 5, desc: "Stylish leather Chelsea boots.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 60, endTime: Date.now() + 5400 * 1000, bids: [] }
-    },
-    {
-        id: 30, img: "../index/img/products/f6.jpg", brand: "Name Brand", name: "Graphic Hoodie",
-        price: 33, stars: 4, desc: "Graphic hoodie with a modern print.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 31, img: "../index/img/products/f7.jpg", brand: "Vintage", name: "High Waist Skirt",
-        price: 25, stars: 4, desc: "Chic high waist skirt, size M.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 32, img: "../index/img/products/f8.jpg", brand: "Urban", name: "Casual Belt",
-        price: 13, stars: 4, desc: "Leather casual belt for daily use.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 33, img: "../index/img/products/f9.jpg", brand: "Classic", name: "Cotton T-Shirt",
-        price: 16, stars: 3, desc: "Soft cotton t-shirt, basic wear.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 34, img: "../index/img/products/f10.jpg", brand: "Name Brand", name: "Puffer Jacket",
-        price: 65, stars: 5, desc: "Warm puffer jacket for winter.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 65, endTime: Date.now() + 7200 * 1000, bids: [] }
-    },
-    {
-        id: 35, img: "../index/img/products/f11.jpg", brand: "Vintage", name: "Denim Skirt",
-        price: 27, stars: 4, desc: "Classic denim skirt, size S.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 36, img: "../index/img/products/f12.jpg", brand: "Classic", name: "Wool Coat",
-        price: 75, stars: 5, desc: "Elegant wool coat for formal wear.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 75, endTime: Date.now() + 3600 * 1000, bids: [] }
-    },
-    {
-        id: 37, img: "../index/img/products/f1.jpg", brand: "Urban", name: "Slim Chinos",
-        price: 30, stars: 4, desc: "Comfortable slim fit chinos.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 38, img: "../index/img/products/f2.jpg", brand: "Vintage", name: "Sequin Dress",
-        price: 90, stars: 5, desc: "Stunning sequin dress for parties.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 90, endTime: Date.now() + 5400 * 1000, bids: [] }
-    },
-    {
-        id: 39, img: "../index/img/products/f3.jpg", brand: "Classic", name: "Dress Pants",
-        price: 40, stars: 4, desc: "Formal dress pants, size M.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 40, img: "../index/img/products/f4.jpg", brand: "Name Brand", name: "Running Shoes",
-        price: 50, stars: 5, desc: "Lightweight running shoes.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 50, endTime: Date.now() + 4800 * 1000, bids: [] }
-    },
-    {
-        id: 41, img: "../index/img/products/f5.jpg", brand: "Vintage", name: "Retro Sunglasses",
-        price: 20, stars: 4, desc: "Trendy retro style sunglasses.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 42, img: "../index/img/products/f6.jpg", brand: "Classic", name: "Cardigan Sweater",
-        price: 38, stars: 4, desc: "Warm cardigan sweater, size L.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 43, img: "../index/img/products/f7.jpg", brand: "Urban", name: "Bomber Jacket",
-        price: 55, stars: 5, desc: "Trendy bomber jacket.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 55, endTime: Date.now() + 5400 * 1000, bids: [] }
-    },
-    {
-        id: 44, img: "../index/img/products/f8.jpg", brand: "Name Brand", name: "Yoga Pants",
-        price: 28, stars: 4, desc: "Flexible yoga pants for workouts.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 45, img: "../index/img/products/f9.jpg", brand: "Classic", name: "Peacoat",
-        price: 85, stars: 5, desc: "Elegant wool peacoat.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 85, endTime: Date.now() + 7200 * 1000, bids: [] }
-    },
-    {
-        id: 46, img: "../index/img/products/f10.jpg", brand: "Vintage", name: "Denim Overalls",
-        price: 48, stars: 4, desc: "Classic denim overalls.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 47, img: "../index/img/products/f11.jpg", brand: "Urban", name: "Bucket Hat",
-        price: 15, stars: 4, desc: "Trendy bucket hat.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 48, img: "../index/img/products/f12.jpg", brand: "Name Brand", name: "Windbreaker",
-        price: 45, stars: 4, desc: "Light windbreaker jacket.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 45, endTime: Date.now() + 4800 * 1000, bids: [] }
-    },
-    {
-        id: 49, img: "../index/img/products/f1.jpg", brand: "Classic", name: "Chiffon Blouse",
-        price: 35, stars: 4, desc: "Elegant chiffon blouse.", inStock: true, isNew: false,
-        auction: { enabled: false }
-    },
-    {
-        id: 50, img: "../index/img/products/f2.jpg", brand: "Vintage", name: "Boho Kimono",
-        price: 38, stars: 5, desc: "Bohemian style kimono.", inStock: true, isNew: true,
-        auction: { enabled: true, currentBid: 38, endTime: Date.now() + 3600 * 1000, bids: [] }
-    }
+// Lấy danh sách bài đã duyệt từ localStorage
+const APPROVED_POSTS = JSON.parse(localStorage.getItem('approved_posts')) || [];
+
+// Chuyển định dạng bài duyệt thành sản phẩm hoàn chỉnh
+
+const FIXED_PRODUCTS = [
+{
+    id: 2001,
+    imgSrc: "img/products/tablet-1.jpg",
+    title: "Máy tính bảng Android 10 inch",
+    description: "Màn hình IPS, RAM 4GB, pin 6000mAh.",
+    brand: "TabX",
+    category: "thiết bị điện tử",
+    subcategory: "máy tính bảng",
+    stars: 4,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 2590000
+  },
+  {
+    id: 2002,
+    imgSrc: "img/products/phone-1.jpg",
+    title: "Điện thoại thông minh 5G",
+    description: "Snapdragon, camera 64MP, pin 5000mAh.",
+    brand: "VivaPhone",
+    category: "thiết bị điện tử",
+    subcategory: "điện thoại",
+    stars: 4.3,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "hanghieu",
+    price: 7690000
+  },
+  {
+    id: 2003,
+    imgSrc: "img/products/laptop-1.jpg",
+    title: "Laptop văn phòng mỏng nhẹ",
+    description: "Core i5, SSD 512GB, màn hình 14 inch.",
+    brand: "WorkBook",
+    category: "thiết bị điện tử",
+    subcategory: "laptop",
+    stars: 4.5,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: true },
+    segment: "daugia",
+    price: 12500000
+  },
+  {
+    id: 2004,
+    imgSrc: "img/products/fridge.jpg",
+    title: "Tủ lạnh 2 cửa Inverter",
+    description: "Tiết kiệm điện, dung tích 260L.",
+    brand: "CoolMax",
+    category: "đồ gia dụng",
+    subcategory: "tủ lạnh",
+    stars: 4.2,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 4890000
+  },
+  {
+    id: 2005,
+    imgSrc: "img/products/washing-machine.jpg",
+    title: "Máy giặt cửa trước 9kg",
+    description: "Giặt hơi nước, chống nhăn hiệu quả.",
+    brand: "WashPro",
+    category: "đồ gia dụng",
+    subcategory: "máy giặt",
+    stars: 4.6,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "hanghieu",
+    price: 7450000
+  },
+  {
+    id: 2006,
+    imgSrc: "img/products/microwave.jpg",
+    title: "Lò vi sóng điện tử 23L",
+    description: "Nấu, rã đông và hâm nóng nhanh.",
+    brand: "HeatX",
+    category: "đồ gia dụng",
+    subcategory: "lò vi sóng",
+    stars: 4.1,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: true },
+    segment: "daugia",
+    price: 1890000
+  },
+  {
+    id: 2007,
+    imgSrc: "img/products/book.jpg",
+    title: "Sách kinh điển: Nhà giả kim",
+    description: "Tác phẩm nổi tiếng của Paulo Coelho.",
+    brand: "NXB Trẻ",
+    category: "sở thích",
+    subcategory: "sách",
+    stars: 4.9,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 98000
+  },
+  {
+    id: 2008,
+    imgSrc: "img/products/guitar.jpg",
+    title: "Đàn Guitar Acoustic",
+    description: "Âm thanh ấm, gỗ thịt chất lượng.",
+    brand: "Yamaha",
+    category: "sở thích",
+    subcategory: "nhạc cụ",
+    stars: 4.7,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "hanghieu",
+    price: 1850000
+  },
+  {
+    id: 2009,
+    imgSrc: "img/products/stamp.jpg",
+    title: "Bộ sưu tập tem cổ Việt Nam",
+    description: "Gồm 30 mẫu hiếm từ 1950-1980.",
+    brand: "StampVN",
+    category: "sở thích",
+    subcategory: "đồ sưu tầm",
+    stars: 4.6,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: true },
+    segment: "daugia",
+    price: 520000
+  },
+  {
+    id: 2010,
+    imgSrc: "img/products/shirt.jpg",
+    title: "Áo sơ mi nam tay dài",
+    description: "Chất vải cotton thoáng mát.",
+    brand: "FashionX",
+    category: "thời trang",
+    subcategory: "quần áo",
+    stars: 4,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 220000
+  },
+  {
+    id: 2011,
+    imgSrc: "img/products/shoes.jpg",
+    title: "Giày sneaker thể thao nam",
+    description: "Phong cách trẻ trung, đế cao su êm ái.",
+    brand: "RunnerPro",
+    category: "thời trang",
+    subcategory: "giày dép",
+    stars: 4.5,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "hanghieu",
+    price: 850000
+  },
+  {
+    id: 2012,
+    imgSrc: "img/products/handbag.jpg",
+    title: "Túi xách nữ đeo chéo",
+    description: "Thiết kế thời trang, chất liệu da PU.",
+    brand: "LuxeBag",
+    category: "thời trang",
+    subcategory: "phụ kiện",
+    stars: 4.2,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: true },
+    segment: "daugia",
+    price: 390000
+  },
+  {
+    id: 2013,
+    imgSrc: "img/products/laptop-2.jpg",
+    title: "Laptop Gaming Ryzen 7",
+    description: "Màn hình 144Hz, VGA GTX1650.",
+    brand: "PowerGame",
+    category: "thiết bị điện tử",
+    subcategory: "laptop",
+    stars: 4.7,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: true },
+    segment: "daugia",
+    price: 18900000
+  },
+  {
+    id: 2014,
+    imgSrc: "img/products/phone-2.jpg",
+    title: "iPhone 13 Pro Max 128GB",
+    description: "Mới 99%, pin khỏe, bảo hành 6 tháng.",
+    brand: "Apple",
+    category: "thiết bị điện tử",
+    subcategory: "điện thoại",
+    stars: 4.9,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "hanghieu",
+    price: 17890000
+  },
+  {
+    id: 2015,
+    imgSrc: "img/products/guitar-electric.jpg",
+    title: "Đàn Guitar điện Rock",
+    description: "Âm thanh mạnh, phù hợp biểu diễn.",
+    brand: "Fender",
+    category: "sở thích",
+    subcategory: "nhạc cụ",
+    stars: 4.8,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "hanghieu",
+    price: 6350000
+  },
+  {
+    id: 2016,
+    imgSrc: "img/products/fridge-mini.jpg",
+    title: "Tủ lạnh mini cho phòng ngủ",
+    description: "Dung tích 50L, tiết kiệm điện.",
+    brand: "MiniCool",
+    category: "đồ gia dụng",
+    subcategory: "tủ lạnh",
+    stars: 4.1,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 1690000
+  },
+  {
+    id: 2017,
+    imgSrc: "img/products/shoes-female.jpg",
+    title: "Giày cao gót 7cm",
+    description: "Thiết kế thanh lịch, dễ phối đồ.",
+    brand: "Elegance",
+    category: "thời trang",
+    subcategory: "giày dép",
+    stars: 4.4,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 360000
+  },
+  {
+    id: 2018,
+    imgSrc: "img/products/book2.jpg",
+    title: "Sách kỹ năng: 7 thói quen thành đạt",
+    description: "Cuốn sách nổi tiếng của Stephen Covey.",
+    brand: "NXB Tổng hợp",
+    category: "sở thích",
+    subcategory: "sách",
+    stars: 4.8,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 115000
+  },
+  {
+    id: 2019,
+    imgSrc: "img/products/microwave-2.jpg",
+    title: "Lò vi sóng cơ 20L",
+    description: "Giá rẻ, dễ sử dụng, phù hợp sinh viên.",
+    brand: "QuickHeat",
+    category: "đồ gia dụng",
+    subcategory: "lò vi sóng",
+    stars: 4,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 1390000
+  },
+  {
+    id: 2020,
+    imgSrc: "img/products/clothes-set.jpg",
+    title: "Bộ đồ mặc nhà cotton nữ",
+    description: "Mềm mại, thấm hút tốt, mặc mát mẻ.",
+    brand: "HomeWear",
+    category: "thời trang",
+    subcategory: "quần áo",
+    stars: 4.3,
+    inStock: true,
+    isNew: true,
+    auction: { enabled: false },
+    segment: "binhdan",
+    price: 185000
+  }
 ];
+
+const PRODUCTS = [
+    ...FIXED_PRODUCTS,
+    ...APPROVED_POSTS.map((p, index) => ({
+        ...p,
+        id: 1000 + index,
+        imgSrc: p.image,
+        title: p.title || "Không có tiêu đề",
+        description: p.description || "",
+        brand: p.brand || "Người bán",
+        category: p.category || "",      
+        subcategory: p.subcategory || "", 
+        stars: p.stars || 4,
+        inStock: true,
+        isNew: true,    
+        auction: { enabled: false },
+        segment: "binhdan",
+        price: parseFloat(p.price) || 0
+    }))
+];
+
 
 // --- Utility Functions ---
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 const getLocal = (key, fallback = null) => {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+    try {
+        return JSON.parse(localStorage.getItem(key)) ?? fallback;
+    } catch {
+        return fallback;
+    }
 };
 const setLocal = (key, value) => localStorage.setItem(key, JSON.stringify(value));
 
-// --- Product Segmentation ---
-PRODUCTS.forEach(p => {
-    if (p.brand === "Name Brand") {
-        p.segment = "hieu";
-        p.segmentType = p.auction?.enabled ? "auction" : "noauction";
-    } else {
-        p.segment = "binhdan";
-    }
-});
+// --- Product Segmentation (Phân khúc sản phẩm) ---
+function segmentProducts(products) {
+    const SEGMENT_RULES = {
+        "Name Brand": {
+            segment: "hieu",
+            getSegmentType: (p) => p.auction?.enabled ? "auction" : "noauction"
+        }
+        // Có thể thêm nhiều thương hiệu khác ở đây
+        // "Luxury Brand": { segment: "cao-cap", getSegmentType: (p) => ... }
+    };
 
-// --- Auction State ---
-function loadAuctionState() {
-    const auctionState = getLocal('auctionState', {});
-    PRODUCTS.forEach(p => {
-        if (p.auction?.enabled && auctionState[p.id]) Object.assign(p.auction, auctionState[p.id]);
+    products.forEach(p => {
+        const rule = SEGMENT_RULES[p.brand];
+        if (rule) {
+            p.segment = rule.segment;
+            p.segmentType = rule.getSegmentType(p);
+        } else {
+            p.segment = "binhdan";
+            p.segmentType = "none";
+        }
     });
+
+    console.info("✅ Đã phân loại sản phẩm theo phân khúc thành công.");
 }
+
+// --- Auction State Loader (Khôi phục trạng thái đấu giá) ---
+function loadAuctionState(products) {
+    const auctionState = getLocal('auctionState', {});
+    let restoredCount = 0;
+
+    products.forEach(p => {
+        if (p.auction?.enabled && auctionState[p.id]) {
+            p.auction = {
+                ...p.auction,
+                ...auctionState[p.id]
+            };
+            restoredCount++;
+        }
+    });
+
+    console.info(`📦 Đã khôi phục trạng thái đấu giá cho ${restoredCount} sản phẩm.`);
+}
+
+// Gọi khi khởi tạo
+segmentProducts(PRODUCTS);
+loadAuctionState(PRODUCTS);
+
+// --- Wishlist Logic ---
+let wishlist = getLocal('wishlist', []);
+
+function saveWishlist() {
+    setLocal('wishlist', wishlist);
+    updateWishlistCount();
+}
+
+function updateWishlistCount() {
+    let count = wishlist.length;
+    let wishlistLink = $('#navbar a[href="wishlist.html"]');
+    if (wishlistLink) {
+        let icon = wishlistLink.querySelector('.fa-heart');
+        if (icon) {
+            let badge = icon.nextElementSibling;
+            if (!badge || !badge.classList.contains('wishlist-badge')) {
+                badge = document.createElement('span');
+                badge.className = 'wishlist-badge';
+                badge.style = 'background:#ff4d4f;color:#fff;border-radius:50%;padding:2px 7px;font-size:0.8em;margin-left:4px;';
+                icon.after(badge);
+            }
+            badge.textContent = count;
+            badge.style.display = count ? 'inline-block' : 'none';
+        }
+    }
+}
+
+function toggleWishlist(productId) {
+    const product = PRODUCTS.find(p => p.id === productId);
+    if (!product) return;
+
+    const index = wishlist.findIndex(item => item.id === productId);
+
+    if (index !== -1) {
+        wishlist.splice(index, 1);
+        showActionToast(`${product.title} đã được xóa khỏi danh sách yêu thích.`, null, "wishlist");
+    } else {
+        wishlist.push(product);
+        showActionToast(`${product.title} đã được thêm vào danh sách yêu thích.`, "Xem danh sách", "wishlist");
+    }
+    saveWishlist();
+    renderProducts(); // Re-render to update heart icons
+}
+
+// --- Cart Logic (simplified for shop page) ---
+function addToCart(productId) {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+        alert("Bạn cần đăng nhập trước khi thêm sản phẩm vào giỏ.");
+        localStorage.setItem("redirectAfterLogin", window.location.href); // Lưu URL hiện tại
+        window.location.href = "../index/signup-in/signin.html";
+        return;
+    }
+
+    let cart = getLocal('cart', []);
+    const product = PRODUCTS.find(p => p.id === productId);
+
+    if (product) {
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) {
+            existingItem.quantity = (parseInt(existingItem.quantity) || 0) + 1;
+        } else {
+            cart.push({
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                img: product.imgSrc,
+                quantity: 1
+            });
+        }
+        setLocal('cart', cart);
+        showActionToast(`${product.title} đã được thêm vào giỏ hàng.`, "Xem giỏ hàng", "cart");
+    }
+}
+
+// --- Modals ---
+const productModal = $('#product-modal');
+const auctionModal = $('#auction-modal');
+const actionToast = $('#action-toast');
+let currentProduct = null;
+
+function openAuctionModal(productId) {
+    currentProduct = PRODUCTS.find(p => p.id === productId);
+    if (!currentProduct || !currentProduct.auction?.enabled) return;
+
+    $('#auction-modal-img').src = currentProduct.imgSrc;
+    $('#auction-modal-title').textContent = currentProduct.title;
+    $('#auction-modal-current-bid').textContent = `Giá hiện tại: ${parseFloat(currentProduct.auction.currentBid).toLocaleString('vi-VN')}₫`;
+    $('#auction-modal-time-left').textContent = `Thời gian còn lại: ${formatTimeLeft(currentProduct.auction.endTime)}`;
+
+    $('#bidder-name').value = '';
+    $('#bidder-email').value = '';
+    $('#bid-amount').value = '';
+
+    startAuctionTimer();
+
+    auctionModal.style.display = 'block';
+}
+
+
+function closeModal() {
+    productModal.style.display = 'none';
+    auctionModal.style.display = 'none';
+}
+
 function saveAuctionState() {
     const state = {};
     PRODUCTS.forEach(p => {
@@ -286,598 +501,432 @@ function saveAuctionState() {
             state[p.id] = {
                 currentBid: p.auction.currentBid,
                 endTime: p.auction.endTime,
-                bids: p.auction.bids
+                lastBidder: p.auction.lastBidder || null
             };
         }
     });
-    setLocal('auctionState', state);
-}
-loadAuctionState();
-
-// --- Wishlist & Cart State ---
-let wishlist = getLocal('wishlist', []);
-let cart = getLocal('cart', []);
-
-// --- State ---
-const PRODUCTS_PER_PAGE = 6;
-let currentPage = 1;
-let filteredProducts = [...PRODUCTS];
-let sortedProducts = [...PRODUCTS];
-
-// --- Rendering ---
-function renderProducts(list) {
-    const container = $('#productContainer');
-    container.innerHTML = '';
-    if (!list.length) {
-        container.innerHTML = '<p style="text-align:center;width:100%;">No products found.</p>';
-        $('#pagination').innerHTML = '';
-        return;
-    }
-    const totalPages = Math.ceil(list.length / PRODUCTS_PER_PAGE);
-    if (currentPage > totalPages) currentPage = 1;
-    const pageProducts = list.slice((currentPage - 1) * PRODUCTS_PER_PAGE, currentPage * PRODUCTS_PER_PAGE);
-
-    container.innerHTML = pageProducts.map(product => `
-        <div class="pro" data-brand="${product.brand}" data-price="${product.price}" tabindex="0" aria-label="${product.name}" onkeydown="handleProductKeydown(event, ${product.id})">
-            ${product.isNew ? `<span class="badge">NEW</span>` : ""}
-            ${!product.inStock ? `<span class="badge" style="background:#e74c3c;color:#fff;left:auto;right:10px;">OUT</span>` : ""}
-            <img src="${product.img}" alt="product" loading="lazy">
-            <div class="des">
-                <span>${product.brand}</span>
-                <h5>${product.name}</h5>
-                <div class="star" aria-label="Rating: ${product.stars} out of 5">
-                    ${'<i class="fas fa-star"></i>'.repeat(product.stars)}
-                    ${product.stars < 5 ? '<i class="far fa-star"></i>'.repeat(5-product.stars) : ''}
-                </div>
-                <h4>$${product.price}</h4>
-                ${product.auction?.enabled ? `
-                    <div style="margin-top:8px;">
-                        <span style="color:#f7b731;font-weight:bold;">Auction</span>
-                        <br>
-                        <span>Current Bid: <b>$${product.auction.currentBid}</b></span>
-                        <br>
-                        <span id="auction-timer-${product.id}" style="font-size:13px;color:#888;"></span>
-                        <br>
-                        <button onclick="openAuctionModal(${product.id})" style="margin-top:6px;padding:5px 12px;border-radius:5px;border:1px solid #f7b731;background:#fffbe6;color:#222;cursor:pointer;font-size:14px;">Bid Now</button>
-                    </div>
-                ` : ''}
-            </div>
-            <button class="wishlist-btn${wishlist.includes(product.id) ? ' active' : ''}" title="Add to Wishlist" aria-pressed="${wishlist.includes(product.id)}" onclick="toggleWishlist(${product.id}, event)">
-                <i class="fa${wishlist.includes(product.id) ? 's' : 'r'} fa-heart"></i>
-            </button>
-            <button class="cart" title="Add to Cart" onclick="addToCart(${product.id}, event)" ${!product.inStock ? 'disabled style="background:#ccc;cursor:not-allowed;"' : ''} aria-disabled="${!product.inStock}">
-                <i class="fas fa-shopping-cart"></i>
-            </button>
-            <button class="quick-view-btn" onclick="openModal(${product.id})">Quick View</button>
-        </div>
-    `).join('');
-    renderPagination(list.length, totalPages);
-    addProductHoverPreview();
-    updateAuctionTimers();
+    localStorage.setItem('auctionState', JSON.stringify(state));
 }
 
-function renderPagination(total, totalPages) {
-    const pag = $('#pagination');
-    if (totalPages <= 1) return pag.innerHTML = '';
-    let html = `<button ${currentPage === 1 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''} onclick="goToPage(${currentPage - 1})" aria-label="Previous page">&laquo; Prev</button>`;
-    let start = Math.max(1, currentPage - 2), end = Math.min(totalPages, currentPage + 2);
-    if (start > 1) {
-        html += `<button onclick="goToPage(1)">1</button>`;
-        if (start > 2) html += `<span style="padding:0 6px;">...</span>`;
-    }
-    for (let i = start; i <= end; i++)
-        html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})" aria-label="Page ${i}">${i}</button>`;
-    if (end < totalPages) {
-        if (end < totalPages - 1) html += `<span style="padding:0 6px;">...</span>`;
-        html += `<button onclick="goToPage(${totalPages})">${totalPages}</button>`;
-    }
-    html += `<button ${currentPage === totalPages ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''} onclick="goToPage(${currentPage + 1})" aria-label="Next page">Next &raquo;</button>`;
-    pag.innerHTML = html;
-}
-function goToPage(page) {
-    const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
-    if (page < 1 || page > totalPages) return;
-    currentPage = page;
-    renderProducts(sortedProducts);
-    $('#productContainer')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// --- Filtering & Sorting ---
-function filterProducts() {
-    const segment = $('#segmentFilter')?.value || "";
-    const brand = $('#brandFilter')?.value || "";
-    const price = $('#priceFilter')?.value || "";
-    const inStock = $('#inStockFilter')?.checked || false;
-    const query = $('#searchInput')?.value.toLowerCase() || "";
-
-    filteredProducts = PRODUCTS.filter(p => {
-        if (segment === "binhdan" && p.segment !== "binhdan") return false;
-        if (segment === "hieu" && p.segment !== "hieu") return false;
-        if (segment === "hieu-auction" && !(p.segment === "hieu" && p.segmentType === "auction")) return false;
-        if (segment === "hieu-noauction" && !(p.segment === "hieu" && p.segmentType === "noauction")) return false;
-        if (brand && p.brand !== brand) return false;
-        if (price === 'low' && p.price >= 20) return false;
-        if (price === 'mid' && (p.price < 20 || p.price > 50)) return false;
-        if (price === 'high' && p.price <= 50) return false;
-        if (inStock && !p.inStock) return false;
-        if (query && !(p.name.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query))) return false;
-        return true;
-    });
-    sortedProducts = [...filteredProducts];
-    sortProducts();
-}
-function sortProducts() {
-    const sort = $('#sortSelect')?.value || "";
-    if (sort === "price-asc") sortedProducts.sort((a, b) => a.price - b.price);
-    else if (sort === "price-desc") sortedProducts.sort((a, b) => b.price - a.price);
-    else if (sort === "star-desc") sortedProducts.sort((a, b) => b.stars - a.stars);
-    else if (sort === "star-asc") sortedProducts.sort((a, b) => a.stars - b.stars);
-    else if (sort === "name-asc") sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
-    else if (sort === "name-desc") sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
-    renderProducts(sortedProducts);
-}
-function searchProducts() {
-    currentPage = 1;
-    filterProducts();
-}
-
-// --- Quick View Modal ---
-function openModal(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-    if (!product) return;
-    $('#modalContent').innerHTML = `
-        <span class="close-modal" onclick="closeModal()" tabindex="0" aria-label="Close">&times;</span>
-        <img src="${product.img}" alt="${product.name}" style="width:100%;border-radius:6px;">
-        <h3 style="margin:15px 0 5px 0;">${product.name}</h3>
-        <p><strong>Brand:</strong> ${product.brand}</p>
-        <p>${product.desc}</p>
-        <div class="star" style="margin-bottom:8px;" aria-label="Rating: ${product.stars} out of 5">
-            ${'<i class="fas fa-star"></i>'.repeat(product.stars)}
-            ${product.stars < 5 ? '<i class="far fa-star"></i>'.repeat(5-product.stars) : ''}
-        </div>
-        <h4 style="margin-bottom:10px;">$${product.price}</h4>
-        <button class="add-to-cart-btn" onclick="addToCart(${product.id}, event)" ${!product.inStock ? 'disabled style="background:#ccc;cursor:not-allowed;"' : ''} aria-disabled="${!product.inStock}"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
-        <button class="modal-wishlist-btn${wishlist.includes(product.id) ? ' active' : ''}" onclick="toggleWishlist(${product.id}, event)">
-            <i class="fa${wishlist.includes(product.id) ? 's' : 'r'} fa-heart"></i> Wishlist
-        </button>
-        ${product.auction?.enabled ? `
-            <div style="margin-top:14px;">
-                <span style="color:#f7b731;font-weight:bold;">Auction</span>
-                <br>
-                <span>Current Bid: <b>$${product.auction.currentBid}</b></span>
-                <br>
-                <span id="auction-modal-timer-${product.id}" style="font-size:13px;color:#888;"></span>
-                <br>
-                <button onclick="openAuctionModal(${product.id})" style="margin-top:6px;padding:7px 18px;border-radius:5px;border:1px solid #f7b731;background:#fffbe6;color:#222;cursor:pointer;font-size:15px;">Bid Now</button>
-            </div>
-        ` : ''}
-        ${!product.inStock ? '<p style="color:#e74c3c;margin-top:10px;">Out of Stock</p>' : ''}
-    `;
-    $('#quickViewModal').style.display = 'flex';
-    setTimeout(() => $('#modalContent').querySelector('.close-modal').focus(), 100);
-    document.addEventListener('keydown', escModalHandler);
-    if (product.auction?.enabled) updateAuctionModalTimer(product.id);
-}
-function closeModal() {
-    $('#quickViewModal').style.display = 'none';
-    document.removeEventListener('keydown', escModalHandler);
-}
-function escModalHandler(e) { if (e.key === 'Escape') closeModal(); }
-
-/// Assume PRODUCTS, $, showToast, saveAuctionState, renderProducts are already defined.
-
-// --- Auction Modal ---
-function openAuctionModal(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-    if (!product?.auction?.enabled) {
-        showToast('Auction is not enabled for this product.', 'error');
-        return;
-    }
-
-    if (product.auction.currentBid === 0 && product.price > 0) {
-        product.auction.currentBid = product.price;
-        saveAuctionState();
-    }
-
-    if (product.auction.status === 'ended' || product.auction.status === 'pending' || product.auction.status === 'sold') {
-        const winningBid = product.auction.bids?.length ? product.auction.bids.slice().sort((a, b) => b.amount - a.amount)[0] : null;
-        const winnerInfo = winningBid ? `Winner: <b>${winningBid.name || 'Anonymous'}</b> with $${winningBid.amount}` : 'No bids placed.';
-        $('#auctionModalContent').innerHTML = `
-            <span class="close-modal" onclick="closeAuctionModal()" tabindex="0" aria-label="Close">&times;</span>
-            <h3>${product.name} - Auction (Ended)</h3>
-            <img src="${product.img}" alt="${product.name}" style="width:100%;border-radius:6px;max-height:180px;object-fit:cover;">
-            <p style="margin:10px 0 0 0;"><strong>Final Bid:</strong> <span id="auction-current-bid">$${product.auction.currentBid}</span></p>
-            <p style="font-size:13px;color:#888;">${winnerInfo}</p>
-            <p style="color:#f44336; font-weight:bold;">This auction has concluded.</p>
-            <div style="margin-top:10px;">
-                <strong>Bid History:</strong>
-                ${getBidsHtml(product.auction.bids)}
-            </div>
-        `;
-        $('#auctionModal').style.display = 'flex';
-        setTimeout(() => $('#auctionModalContent').querySelector('.close-modal').focus(), 100);
-        document.addEventListener('keydown', escAuctionModalHandler);
-        return;
-    }
-
-    if (product.auction.status === 'inactive' || product.auction.endTime === 0) {
-        // Correctly determine the initial bid amount based on product price or 1 if price is 0
-        const initialBidAmount = product.price > 0 ? product.price : 1;
-        $('#auctionModalContent').innerHTML = `
-            <span class="close-modal" onclick="closeAuctionModal()" tabindex="0" aria-label="Close">&times;</span>
-            <h3>${product.name} - Auction</h3>
-            <img src="${product.img}" alt="${product.name}" style="width:100%;border-radius:6px;max-height:180px;object-fit:cover;">
-            <p style="margin:10px 0 0 0;"><strong>Starting Bid:</strong> <span id="auction-current-bid">$${initialBidAmount}</span></p>
-            <p style="font-size:13px;color:#888;">Be the first to bid! The auction will start a 24-hour countdown.</p>
-            <form id="bidForm" onsubmit="submitBid(event,${product.id})" style="margin-bottom:10px;">
-                <input type="text" id="bidderName" placeholder="Your name (optional)" style="padding:7px 10px;border-radius:5px;border:1px solid #bbb;width:60%;margin-bottom:6px;" autocomplete="username">
-                <br>
-                <input type="number" id="bidAmount" placeholder="Your bid ($)" min="${initialBidAmount}" step="1" style="padding:7px 10px;border-radius:5px;border:1px solid #bbb;width:60%;" required>
-                <br>
-                <button type="submit" style="margin-top:8px;padding:8px 22px;border-radius:5px;border:none;background:#28a745;color:white;font-size:16px;font-weight:500;cursor:pointer;">Place First Bid</button>
-            </form>
-            <div style="margin-top:20px;">
-                <strong>Bid History:</strong>
-                ${getBidsHtml(product.auction.bids)}
-            </div>
-        `;
-        $('#auctionModal').style.display = 'flex';
-        setTimeout(() => $('#auctionModalContent').querySelector('.close-modal').focus(), 100);
-        document.addEventListener('keydown', escAuctionModalHandler);
-        return;
-    }
-
-    $('#auctionModalContent').innerHTML = `
-        <span class="close-modal" onclick="closeAuctionModal()" tabindex="0" aria-label="Close">&times;</span>
-        <h3>${product.name} - Auction</h3>
-        <img src="${product.img}" alt="${product.name}" style="width:100%;border-radius:6px;max-height:180px;object-fit:cover;">
-        <p style="margin:10px 0 0 0;"><strong>Current Bid:</strong> <span id="auction-current-bid">$${product.auction.currentBid}</span></p>
-        <p><span id="auction-modal-timer2-${product.id}" style="font-size:13px;color:#888;"></span></p>
-        <form id="bidForm" onsubmit="submitBid(event,${product.id})" style="margin-bottom:10px;">
-            <input type="text" id="bidderName" placeholder="Your name (optional)" style="padding:7px 10px;border-radius:5px;border:1px solid #bbb;width:60%;margin-bottom:6px;" autocomplete="username">
-            <br>
-            <input type="number" id="bidAmount" placeholder="Your bid ($)" min="${product.auction.currentBid + 1}" step="1" style="padding:7px 10px;border-radius:5px;border:1px solid #bbb;width:60%;" required>
-            <br>
-            <button type="submit" style="margin-top:8px;padding:8px 22px;border-radius:5px;border:none;background:#f7b731;color:#222;font-size:16px;font-weight:500;cursor:pointer;">Place Bid</button>
-        </form>
-        <div style="margin-top:10px;">
-            <strong>Bid History:</strong>
-            ${getBidsHtml(product.auction.bids)}
-        </div>
-    `;
-    $('#auctionModal').style.display = 'flex';
-    setTimeout(() => $('#auctionModalContent').querySelector('.close-modal').focus(), 100);
-    document.addEventListener('keydown', escAuctionModalHandler);
-    updateAuctionModalTimer2(product.id);
-}
-
-function closeAuctionModal() {
-    $('#auctionModal').style.display = 'none';
-    document.removeEventListener('keydown', escAuctionModalHandler);
-}
-
-function escAuctionModalHandler(e) {
-    if (e.key === 'Escape') closeAuctionModal();
-}
-
-function getBidsHtml(bids) {
-    return (bids?.length) ?
-        '<ul style="max-height:120px;overflow-y:auto;padding-left:18px;">' +
-        bids.slice().reverse().map(b =>
-            `<li><b>${b.name || 'Anonymous'}:</b> $${b.amount} <span style="font-size:12px;color:#888;">(${new Date(b.time).toLocaleString()})</span></li>`
-        ).join('') + '</ul>' :
-        '<p style="color:#888;">No bids yet.</p>';
-}
-
-function submitBid(e, id) {
-    e.preventDefault();
-    const product = PRODUCTS.find(p => p.id === id);
-    if (!product?.auction?.enabled) return;
-
-    if (product.auction.status === 'ended' || product.auction.status === 'pending' || product.auction.status === 'sold') {
-        showToast('This auction has already ended.', 'error');
-        openAuctionModal(id);
-        return;
-    }
-
-    const name = $('#bidderName').value.trim();
-    const amount = parseFloat($('#bidAmount').value);
-    
-    const basePrice = product.price > 0 ? product.price : 0;
-    const currentBid = product.auction.currentBid > 0 ? product.auction.currentBid : basePrice;
-    let minBid;
-
-    // Determine the minimum bid required
-    if (product.auction.status === 'inactive') {
-        minBid = basePrice > 0 ? basePrice : 1; // First bid can be base price or 1
-    } else { 
-        minBid = currentBid + 1; // Subsequent bids must be higher than current bid
-    }
-
-    if (isNaN(amount) || amount < minBid) {
-        return showToast(`Bid must be at least $${minBid}.`, 'error');
-    }
-
-    const isFirstBid = product.auction.status === 'inactive';
-
-    if (isFirstBid) {
-        product.auction.status = 'active';
-        product.auction.endTime = Date.now() + 24 * 60 * 60 * 1000; // 24 hours from now
-        showToast('Auction started! 24-hour countdown begins.', 'success');
-    } else {
-        // For subsequent bids, reset the end time to 24 hours from the *current* time
-        product.auction.endTime = Date.now() + 24 * 60 * 60 * 1000;
-        showToast('Auction time reset! 24 hours added from now.', 'info');
-    }
-
-    product.auction.currentBid = amount;
-    product.auction.bids = product.auction.bids || [];
-    product.auction.bids.push({ name, amount, time: Date.now() });
-
-    saveAuctionState();
-    openAuctionModal(id);
-    renderProducts(sortedProducts);
-}
-
-function updateAuctionTimers() {
-    for (const p of PRODUCTS) {
-        if (p.auction?.enabled) {
-            const el = document.getElementById('auction-timer-' + p.id);
-            if (el) {
-                const productCard = el.closest('.product-card');
-
-                // Reset all inline styles before applying new ones to avoid stale styles
-                if (productCard) {
-                    productCard.style.border = '';
-                    productCard.style.boxShadow = '';
-                    productCard.style.animation = ''; // Ensure animation is cleared
-                    productCard.style.backgroundColor = ''; // Clear background too if set
-                }
-
-                if (p.auction.status === 'sold') {
-                    if (productCard) productCard.style.display = 'none';
-                    continue;
-                }
-
-                const timeLeft = getAuctionTimeLeft(p.auction.endTime);
-
-                if (p.auction.status === 'inactive' || p.auction.endTime === 0) {
-                    // Update text and style for "In Queue"
-                    if(productCard) {
-                        productCard.style.border = '2px dashed #9E9E9E'; // Grey dashed border
-                        productCard.style.boxShadow = '0 0 8px rgba(158, 158, 158, 0.4)'; // Light grey shadow
-                        productCard.style.backgroundColor = '#f5f5f5'; // Light grey background
-                    }
-                    el.textContent = "In Queue"; // Changed text to "In Queue"
-                    el.parentElement.style.cursor = 'pointer';
-                    el.parentElement.onclick = () => openAuctionModal(p.id);
-                    el.style.color = '#757575'; // Darker grey text color
-                    el.style.fontWeight = 'bold';
-                } else if (p.auction.status === 'active') {
-                    if(productCard) {
-                        productCard.style.border = '3px solid #f7b731'; // Orange solid border
-                        productCard.style.boxShadow = '0 0 15px rgba(247, 183, 49, 0.7)'; // Intense orange shadow
-                        productCard.style.backgroundColor = ''; // Ensure no background for active
-                    }
-                    el.textContent = timeLeft;
-                    el.style.color = '';
-                    el.style.fontWeight = '';
-                    el.parentElement.onclick = () => openAuctionModal(p.id);
-                    if (timeLeft === "Auction ended") {
-                        p.auction.status = 'pending';
-                        saveAuctionState();
-                        showToast(`Auction for ${p.name} has ended and is pending processing!`, 'info');
-                        renderProducts(sortedProducts);
-                    }
-                } else if (p.auction.status === 'pending' || p.auction.status === 'ended') {
-                    if(productCard) {
-                        productCard.style.border = '';
-                        productCard.style.boxShadow = '';
-                        productCard.style.backgroundColor = ''; // Clear background for ended/pending
-                    }
-                    el.textContent = p.auction.status === 'pending' ? "Pending Processing" : "Auction Ended";
-                    el.style.color = p.auction.status === 'pending' ? '#f7b731' : '#dc3545';
-                    el.style.fontWeight = 'bold';
-                    el.parentElement.onclick = null;
-                }
-
-                const addToCartBtn = productCard?.querySelector('.add-to-cart-btn');
-                if (addToCartBtn) {
-                    addToCartBtn.disabled = true;
-                    addToCartBtn.textContent = "Auction Item";
-                    addToCartBtn.style.backgroundColor = '#ccc';
-                    addToCartBtn.style.cursor = 'not-allowed';
-                }
-            }
-        }
-    }
-}
-
-function updateAuctionModalTimer(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-    const el = document.getElementById('auction-modal-timer-' + id);
-    if (product?.auction?.enabled && el) {
-        el.textContent = getAuctionTimeLeft(product.auction.endTime);
-    }
-}
-
-function updateAuctionModalTimer2(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-    const el = document.getElementById('auction-modal-timer2-' + id);
-    if (product?.auction?.enabled && el) {
-        el.textContent = getAuctionTimeLeft(product.auction.endTime);
-    }
-}
-
-function getAuctionTimeLeft(endTime) {
-    const now = Date.now();
-    if (now >= endTime) return "Auction ended";
-    const diff = endTime - now;
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    return `Time left: ${h}h ${m}m ${s}s`;
-}
 
 setInterval(() => {
-    updateAuctionTimers();
-    const auctionModal = $('#auctionModal');
-    if (auctionModal?.style.display === 'flex') {
-        const h3 = $('#auctionModalContent').querySelector('h3');
-        if (h3) {
-            const name = h3.textContent.replace(' - Auction', '').replace(' (Ended)', '');
-            const prod = PRODUCTS.find(p => p.name === name);
-            if (prod) updateAuctionModalTimer2(prod.id);
-        }
-    }
-    const quickViewModal = $('#quickViewModal');
-    if (quickViewModal?.style.display === 'flex') {
-        const h3 = $('#modalContent').querySelector('h3');
-        if (h3) {
-            const name = h3.textContent;
-            const prod = PRODUCTS.find(p => p.name === name);
-            if (prod) updateAuctionModalTimer(prod.id);
-        }
+    if (auctionModal.style.display === 'block' && currentProduct?.auction) {
+        $('#auction-modal-time-left').textContent =
+            `Thời gian còn lại: ${formatTimeLeft(currentProduct.auction.endTime)}`;
     }
 }, 1000);
 
-// --- Cart ---
-function addToCart(id, e) {
-    if (e?.stopPropagation) e.stopPropagation();
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-        showToast('Please sign in to add to cart.', 'error');
-        setTimeout(() => window.location.href = "signin.html", 1200);
-        return;
+function closeAuctionModal() {
+    const auctionModal = document.getElementById('auctionModal');
+    if (auctionModal) {
+        auctionModal.style.display = 'none';
     }
-    const product = PRODUCTS.find(p => p.id === id);
-    if (!product?.inStock) return showToast('Sorry, this product is out of stock.', 'error');
-    let cart = getLocal('cart', []);
-    const existing = cart.find(item => item.id === id);
-    if (existing) existing.quantity += 1;
-    else cart.push({ id: product.id, name: product.name, price: product.price, img: product.img, quantity: 1 });
-    setLocal('cart', cart);
-    showToast('Added to cart', 'success');
-    showActionToast('Added to cart');
+
+    if (auctionTimer) {
+        clearInterval(auctionTimer);
+        auctionTimer = null;
+    }
+
+    currentProduct = null;
 }
 
-// --- Wishlist ---
-function toggleWishlist(id, e) {
-    if (e?.stopPropagation) e.stopPropagation();
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-        showToast('Please sign in to use wishlist.', 'error');
-        setTimeout(() => window.location.href = "signin.html", 1200);
-        return;
-    }
-    if (wishlist.includes(id)) {
-        wishlist = wishlist.filter(pid => pid !== id);
-        showToast('Removed from wishlist', 'info');
+
+function showActionToast(message, actionText = null, type = "cart") {
+    const toastMessage = $('#toast-message');
+    const toastAction = $('#toast-action');
+    const actionToast = $('#action-toast');
+
+    toastMessage.text(message);
+
+    if (actionText) {
+        toastAction.text(actionText);
+        toastAction.css('display', 'inline-block');
+        toastAction.off('click').on('click', () => {
+            if (type === "cart") {
+                window.location.href = "cart.html";
+            } else if (type === "wishlist") {
+                window.location.href = "wishlist.html";
+            }
+            hideActionToast();
+        });
     } else {
-        wishlist.push(id);
-        showToast('Added to wishlist', 'success');
+        toastAction.css('display', 'none');
     }
-    setLocal('wishlist', wishlist);
-    renderProducts(sortedProducts);
-    if ($('#quickViewModal').style.display === 'flex') openModal(id);
+
+    actionToast.addClass('show');
+    setTimeout(() => {
+        hideActionToast();
+    }, 5000);
 }
 
-// --- Toasts ---
-function showToast(msg, type = 'info') {
-    const toast = $('#toast');
-    toast.textContent = msg;
-    toast.className = 'toast show';
-    toast.style.background = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#222';
-    setTimeout(() => toast.classList.remove('show'), 2000);
-}
-function showActionToast(msg, actions) {
-    let toast = $('#action-toast');
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'action-toast';
-        toast.className = 'toast';
-        toast.style.bottom = '70px';
-        document.body.appendChild(toast);
-    }
-    toast.innerHTML = `<span>${msg}</span> ` + actions.map((a, i) =>
-        `<button style="margin-left:10px;padding:6px 14px;border-radius:4px;border:none;cursor:pointer;background:#f7b731;color:#222;" onclick="window._actionToastActions[${i}]()">${a.text}</button>`
-    ).join('');
-    window._actionToastActions = actions.map(a => a.action);
-    toast.classList.add('show');
-    setTimeout(() => hideActionToast(), 4000);
-}
 function hideActionToast() {
-    const toast = $('#action-toast');
-    if (toast) toast.classList.remove('show');
+    actionToast.classList.remove('show');
 }
 
-// --- Hover Preview ---
-function addProductHoverPreview() {
-    $$('.pro').forEach(el => {
-        el.onmouseenter = () => {
-            const id = getProductIdFromEl(el);
-            if (id) showProductTooltip(el, id);
-        };
-        el.onmouseleave = hideProductTooltip;
-        el.onfocus = () => {
-            const id = getProductIdFromEl(el);
-            if (id) showProductTooltip(el, id);
-        };
-        el.onblur = hideProductTooltip;
-    });
-}
-function getProductIdFromEl(el) {
-    const name = el.querySelector('h5')?.textContent;
-    const prod = PRODUCTS.find(p => p.name === name);
-    return prod?.id || null;
-}
-function showProductTooltip(el, id) {
-    let tooltip = $('#product-tooltip');
-    if (!tooltip) {
-        tooltip = document.createElement('div');
-        tooltip.id = 'product-tooltip';
-        tooltip.style.position = 'absolute';
-        tooltip.style.zIndex = 9999;
-        tooltip.style.background = '#fff';
-        tooltip.style.border = '1px solid #ccc';
-        tooltip.style.borderRadius = '8px';
-        tooltip.style.boxShadow = '0 2px 12px rgba(0,0,0,0.13)';
-        tooltip.style.padding = '12px 18px';
-        tooltip.style.fontSize = '15px';
-        tooltip.style.pointerEvents = 'none';
-        document.body.appendChild(tooltip);
+function submitBid(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('bidder-name').value.trim();
+    const email = document.getElementById('bidder-email').value.trim();
+    const bidAmount = parseFloat(document.getElementById('bid-amount').value);
+
+    if (!name || !email || isNaN(bidAmount)) {
+        alert('Vui lòng nhập đầy đủ thông tin.');
+        return;
     }
-    const prod = PRODUCTS.find(p => p.id === id);
-    if (!prod) return;
-    tooltip.innerHTML = `
-        <strong>${prod.name}</strong><br>
-        <span>${prod.brand}</span><br>
-        <span>${prod.desc}</span><br>
-        <span>Price: $${prod.price}</span>
-        ${prod.auction?.enabled ? `<br><span style="color:#f7b731;">Auction: $${prod.auction.currentBid}</span>` : ''}
-    `;
-    const rect = el.getBoundingClientRect();
-    let top = window.scrollY + rect.top - tooltip.offsetHeight - 10;
-    if (top < window.scrollY) top = window.scrollY + rect.bottom + 10;
-    let left = window.scrollX + rect.left + 10;
-    if (left + tooltip.offsetWidth > window.innerWidth) left = window.innerWidth - tooltip.offsetWidth - 10;
-    tooltip.style.top = top + 'px';
-    tooltip.style.left = left + 'px';
-    tooltip.style.display = 'block';
-}
-function hideProductTooltip() {
-    const tooltip = $('#product-tooltip');
-    if (tooltip) tooltip.style.display = 'none';
+
+    const currentBid = parseFloat(currentProduct.auction.currentBid || currentProduct.price);
+    if (bidAmount <= currentBid) {
+        alert(`Giá bạn đặt phải cao hơn giá hiện tại: ${currentBid.toLocaleString('vi-VN')}₫`);
+        return;
+    }
+
+    // Nếu đấu giá chưa bắt đầu, đặt thời gian kết thúc sau 24 giờ
+    if (!currentProduct.auction.endTime) {
+        const initialEndTime = new Date();
+        initialEndTime.setHours(initialEndTime.getHours() + 24);
+        currentProduct.auction.endTime = initialEndTime.toISOString();
+    }
+
+    // Cập nhật thông tin đấu giá
+    currentProduct.auction.currentBid = bidAmount;
+    currentProduct.auction.lastBidder = { name, email };
+
+    // Kiểm tra nếu còn dưới 15 phút thì cộng thêm 15 phút
+    const now = new Date();
+    const endTime = new Date(currentProduct.auction.endTime);
+    const timeLeft = endTime - now;
+
+    if (timeLeft < 15 * 60 * 1000) {
+        endTime.setMinutes(endTime.getMinutes() + 15);
+        currentProduct.auction.endTime = endTime.toISOString();
+    }
+
+    // Lưu lại trạng thái vào localStorage hoặc nơi bạn đang dùng
+    if (typeof saveAuctionState === 'function') {
+        saveAuctionState();
+    }
+
+    // Cập nhật lại modal
+    openAuctionModal(currentProduct.id);
+
+    // Bắt đầu hoặc cập nhật lại đồng hồ đếm ngược
+    if (typeof startAuctionTimer === 'function') {
+        startAuctionTimer();
+    }
+
+    // Hiển thị thông báo toast
+    if (typeof showActionToast === 'function') {
+        showActionToast(`Đặt giá thành công với ${bidAmount.toLocaleString('vi-VN')}₫`, null, 'auction');
+    }
 }
 
-// --- Accessibility ---
-function handleProductKeydown(e, id) {
-    if (e.key === 'Enter' || e.key === ' ') openModal(id);
+
+// --- Rendering Functions ---
+const productList = $('#productContainer');
+
+function getStarRating(stars) {
+    let ratingHtml = '';
+    for (let i = 0; i < 5; i++) {
+        if (i < stars) {
+            ratingHtml += '<i class="fas fa-star"></i>';
+        } else {
+            ratingHtml += '<i class="far fa-star"></i>'; // Empty star
+        }
+    }
+    return ratingHtml;
 }
 
-// --- Initial Render & Events ---
-document.addEventListener("DOMContentLoaded", function () {
+function formatTimeLeft(endTime) {
+    if (!endTime) return 'Không xác định';
+
+    const end = new Date(endTime);
+    if (isNaN(end)) return 'Thời gian không hợp lệ'; // kiểm tra lỗi định dạng
+
+    const now = new Date();
+    const diff = end.getTime() - now.getTime();
+
+    if (diff <= 0) return 'Đã kết thúc';
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+
+function renderProducts(productsToRender = PRODUCTS) {
+    productList.innerHTML = ''; // Clear current products
+    if (productsToRender.length === 0) {
+        productList.innerHTML = '<p style="text-align: center; width: 100%;">Không tìm thấy sản phẩm nào.</p>';
+        return;
+    }
+
+    productsToRender.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'pro';
+        const isProductInWishlist = wishlist.some(item => item.id === product.id);
+        const heartIconClass = isProductInWishlist ? 'fas' : 'far';
+
+        let priceHtml = `<h4 class="price">${parseFloat(product.price).toLocaleString('vi-VN')}₫</h4>`;
+        if (product.auction?.enabled) {
+            priceHtml = `<span class="auction-tag">Đấu giá</span>`;
+        }
+
+        // Chọn hàm mở modal phù hợp
+        const modalFn = product.auction?.enabled ? 'openAuctionModal' : 'openModal';
+
+        productCard.innerHTML = `
+            <img src="${product.imgSrc}" alt="${product.title}" onclick="${modalFn}(${product.id})">
+            <div class="des">
+                <span>${product.brand}</span>
+                <h5 onclick="${modalFn}(${product.id})">${product.title}</h5>
+                <div class="star">
+                    ${getStarRating(product.stars)}
+                </div>
+                ${priceHtml}
+            </div>
+            <a href="../cart.html" class="cart" onclick="addToCart(${product.id})"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="wishlist-icon" onclick="toggleWishlist(${product.id})">
+                <i class="${heartIconClass} fa-heart"></i>
+            </a>
+            ${product.auction?.enabled ? `
+                <a href="#" 
+                class="auction-icon" 
+                onclick="openAuctionModal(${product.id})" 
+                style="position: absolute; top: 10px; right: 10px; background: #f9c74f; color: #fff; padding: 8px 10px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background 0.3s;">
+                <i class="fas fa-gavel" style="font-size: 16px;"></i>
+                </a>` : ''
+}
+        `;
+        productList.appendChild(productCard);
+    });
+    updateWishlistCount(); // Cập nhật số lượng sản phẩm yêu thích sau khi render
+}
+
+// --- Pagination ---
+const itemsPerPage = 8;
+let currentPage = 1;
+
+function goToPage(page) {
+    currentPage = page;
+    filterProducts(); // Re-filter and re-render for the current page
+}
+
+function renderPagination(filteredProducts) {
+    const paginationContainer = document.querySelector('.pagination');
+    paginationContainer.innerHTML = '';
+
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    if (totalPages <= 1) return;
+
+    // Nút "Trước"
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = '« Trước';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => {
+        if (currentPage > 1) goToPage(currentPage - 1);
+    };
+    paginationContainer.appendChild(prevBtn);
+
+    // Nút số trang
+    for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = i;
+        if (i === currentPage) pageBtn.classList.add('active');
+        pageBtn.onclick = () => goToPage(i);
+        paginationContainer.appendChild(pageBtn);
+    }
+
+    // Nút "Sau"
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = 'Sau »';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => {
+        if (currentPage < totalPages) goToPage(currentPage + 1);
+    };
+    paginationContainer.appendChild(nextBtn);
+}
+
+
+
+// --- Category/Subcategory Mapping (Thêm hoặc cập nhật đoạn này) ---
+const categorySubcategoryMap = {
+    'Thiết bị điện tử': ['Điện thoại', 'Máy tính bảng', 'Laptop'],
+    'Đồ gia dụng': ['Tủ lạnh', 'Máy giặt', 'Lò vi sóng'],
+    'Sở thích': ['Sách', 'Nhạc cụ', 'Đồ sưu tầm'],
+    'Thời trang': ['Quần áo', 'Giày dép', 'Phụ kiện']
+};
+
+const categoryFilterSelect = $('#categoryFilter');
+const subcategoryFilterSelect = $('#subcategoryFilter');
+
+function populateCategoryFilter() {
+    categoryFilterSelect.innerHTML = '<option value="">Tất cả danh mục</option>';
+    for (const category in categorySubcategoryMap) {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilterSelect.appendChild(option);
+    }
+}
+
+function populateSubcategoryFilter(selectedCategory) {
+    subcategoryFilterSelect.innerHTML = '<option value="">Tất cả loại thiết bị</option>';
+    if (selectedCategory && categorySubcategoryMap[selectedCategory]) {
+        categorySubcategoryMap[selectedCategory].forEach(sub => {
+            const option = document.createElement('option');
+            option.value = sub;
+            option.textContent = sub;
+            subcategoryFilterSelect.appendChild(option);
+        });
+    }
+}
+
+// --- Filter & Sort Logic (Cập nhật đoạn này) ---
+function filterProducts() {
+    const searchTerm = $('#searchInput').value.trim().toLowerCase();
+    const selectedCategory = categoryFilterSelect.value;
+    const selectedSubcategory = subcategoryFilterSelect.value;
+    const selectedSegment = $('#segmentFilter').value;
+    const showOnlyNew = $('#newProductFilter').checked;
+    const showOnlyAuction = $('#auctionFilter').checked;
+    const sortValue = $('#sortSelect').value;
+
+    let filtered = PRODUCTS.filter(product => {
+        const title = product.title?.toLowerCase() || '';
+        const brand = product.brand?.toLowerCase() || '';
+        const description = product.description?.toLowerCase() || '';
+
+        const matchesSearch =
+            !searchTerm ||
+            title.includes(searchTerm) ||
+            brand.includes(searchTerm) ||
+            description.includes(searchTerm);
+
+        const matchesCategory =
+            !selectedCategory || product.category === selectedCategory;
+
+        const matchesSubcategory =
+            !selectedSubcategory || product.subcategory === selectedSubcategory;
+
+        const matchesSegment =
+            !selectedSegment || product.segment === selectedSegment;
+
+        const matchesNew = !showOnlyNew || product.isNew;
+
+        const matchesAuction = !showOnlyAuction || (product.auction?.enabled === true);
+
+        return (
+            matchesSearch &&
+            matchesCategory &&
+            matchesSubcategory &&
+            matchesSegment &&
+            matchesNew &&
+            matchesAuction
+        );
+    });
+
+    // --- Sorting ---
+    switch (sortValue) {
+        case 'price-asc':
+            filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+            break;
+        case 'price-desc':
+            filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+            break;
+        case 'name-asc':
+            filtered.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+        case 'name-desc':
+            filtered.sort((a, b) => b.title.localeCompare(a.title));
+            break;
+        case 'newest':
+            filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            break;
+    }
+
+    // --- Pagination ---
+    const totalItems = filtered.length;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginated = filtered.slice(startIndex, endIndex);
+
+    // --- Render UI ---
+    renderProducts(paginated);
+    renderPagination(filtered);
+}
+
+/**
+ * Khởi chạy lại bộ lọc sản phẩm, đặt lại trang đầu tiên.
+ * @param {string} trigger - Lý do kích hoạt lọc (ví dụ: 'search', 'sort', 'filter')
+ */
+function refreshProductList(trigger = 'search') {
+    console.log(`🔄 Đang lọc sản phẩm... (trigger: ${trigger})`);
+    currentPage = 1; // Luôn trở về trang đầu khi có thao tác lọc/sắp xếp
     filterProducts();
+}
+
+/**
+ * Hàm gọi khi người dùng tìm kiếm sản phẩm
+ */
+function searchProducts() {
+    refreshProductList('search');
+}
+
+/**
+ * Hàm gọi khi người dùng thay đổi sắp xếp
+ */
+function sortProducts() {
+    refreshProductList('sort');
+}
+
+
+/**
+ * Xử lý sự kiện bàn phím khi người dùng tương tác với sản phẩm.
+ * Cho phép mở modal khi nhấn Enter hoặc Space.
+ *
+ * @param {KeyboardEvent} event - Sự kiện bàn phím
+ * @param {string|number} productId - ID sản phẩm được chọn
+ */
+function handleProductKeydown(event, productId) {
+    if (!event || !productId) {
+        console.warn("⚠️ Thiếu event hoặc productId khi xử lý phím.");
+        return;
+    }
+
+    const key = event.key?.toLowerCase();
+
+    const validKeys = ['enter', ' ']; // Có thể mở rộng: ['enter', ' ', 'arrowright']
+    if (validKeys.includes(key)) {
+        event.preventDefault(); // Ngăn hành vi mặc định như scroll
+        console.log(`🧲 Kích hoạt modal qua phím "${key}" cho sản phẩm ID: ${productId}`);
+        openModal(productId);
+    }
+}
+
+
+// --- Event Listeners (Cập nhật đoạn này) ---
+document.addEventListener("DOMContentLoaded", function() {
+    // Populate filters on load
+    populateCategoryFilter();
+    populateSubcategoryFilter(''); // Initially populate subcategories based on no selection
+
+    // Event listeners for filters
+    categoryFilterSelect.addEventListener('change', () => {
+        populateSubcategoryFilter(categoryFilterSelect.value);
+        filterProducts(); // Re-filter when category changes
+    });
+    subcategoryFilterSelect.addEventListener('change', filterProducts); // Re-filter when subcategory changes
+    $('#segmentFilter').addEventListener('change', filterProducts);
+    $('#newProductFilter').addEventListener('change', filterProducts);
+    $('#auctionFilter').addEventListener('change', filterProducts);
+    $('#sortSelect').addEventListener('change', sortProducts);
+
+    filterProducts(); // Initial render of products
+
     $('#searchInput')?.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') searchProducts();
     });
@@ -885,6 +934,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Auth links
     const signinLink = $("#signin-link");
     const logoutLink = $("#logout-link");
+
     function updateAuthLinks() {
         const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
         if (isLoggedIn) {
@@ -918,4 +968,3 @@ window.handleProductKeydown = handleProductKeydown;
 window.hideActionToast = hideActionToast;
 window.openAuctionModal = openAuctionModal;
 window.closeAuctionModal = closeAuctionModal;
-window.submitBid = submitBid;

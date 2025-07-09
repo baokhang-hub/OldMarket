@@ -37,22 +37,24 @@
     <div class="left-section">
       <h3>Hình ảnh sản phẩm</h3>
       <div class="preview-area" id="preview"></div>
+      <!-- Input thực để PHP nhận file -->
+      <input type="file" id="images" name="images[]" accept="image/*" multiple style="display: none;">
     </div>
 
     <div class="right-section">
-      <form>
+      <form id="sell-form">
         <!-- Danh mục -->
         <div class="form-group">
           <label>Danh mục tin đăng *</label>
           <div id="category-select" class="category-select-box">-- Chọn danh mục --</div>
-          <input type="hidden" id="category">
-          <input type="hidden" id="subcategory">
+          <input type="hidden" id="category" name="category">
+          <input type="hidden" id="subcategory" name="subcategory">
         </div>
 
         <!-- Tình trạng -->
         <div class="form-group">
           <label for="condition">Tình trạng *</label>
-          <select id="condition" required>
+          <select id="condition" name="condition" required>
             <option value="">-- Chọn tình trạng --</option>
             <option value="new">Mới</option>
             <option value="used">Đã sử dụng</option>
@@ -62,19 +64,19 @@
         <!-- Giá bán -->
         <div class="form-group">
           <label for="price">Giá bán *</label>
-          <input type="text" id="price" placeholder="Từ 10.000 đến 200.000.000 đồng" required>
+          <input type="text" id="price" name="price" placeholder="Từ 10.000 đến 200.000.000 đồng" required>
         </div>
 
         <!-- Tiêu đề -->
         <div class="form-group">
           <label for="title">Tiêu đề *</label>
-          <input type="text" id="title" placeholder="VD: iPhone 12 Pro Max 128GB, còn mới 98%" required>
+          <input type="text" id="title" name="title" placeholder="VD: iPhone 12 Pro Max 128GB, còn mới 98%" required>
         </div>
 
         <!-- Mô tả -->
         <div class="form-group">
           <label for="description">Mô tả chi tiết *</label>
-          <textarea id="description" placeholder="Mô tả chi tiết về sản phẩm, tình trạng sử dụng, phụ kiện đi kèm..." required></textarea>
+          <textarea id="description" name="description" placeholder="Mô tả chi tiết về sản phẩm, tình trạng sử dụng, phụ kiện đi kèm..." required></textarea>
         </div>
 
         <!-- Địa chỉ -->
@@ -102,25 +104,26 @@
 
   <!-- ========== POPUP CHỌN ĐỊA CHỈ ========== -->
   <div id="address-popup" class="popup-overlay">
-  <div class="popup-content">
-    <h4 id="address-step-title">Chọn Tỉnh/Thành</h4>
-    <div id="address-options"></div>
+    <div class="popup-content">
+      <h4 id="address-step-title">Chọn Tỉnh/Thành</h4>
+      <div id="address-options"></div>
 
-    <!-- Ô nhập địa chỉ cụ thể -->
-    <div class="form-group" id="specific-address-group" style="display: none; margin-top: 10px;">
-      <label for="specific-address">Địa chỉ cụ thể *</label>
-      <input type="text" id="specific-address" placeholder="VD: 123 Lê Lợi, P. Bến Thành" />
-    </div>
+      <div class="form-group" id="specific-address-group" style="display: none; margin-top: 10px;">
+        <label for="specific-address">Địa chỉ cụ thể *</label>
+        <input type="text" id="specific-address" placeholder="VD: 123 Lê Lợi, P. Bến Thành" />
+      </div>
 
-    <div class="popup-actions">
-      <button id="back-address">← Quay lại</button>
-      <button id="confirm-address" style="display: none;">Xác nhận</button>
+      <div class="popup-actions">
+        <button id="back-address">← Quay lại</button>
+        <button id="confirm-address" style="display: none;">Xác nhận</button>
+      </div>
     </div>
   </div>
-</div>
+
   <!-- ========== SCRIPT ========== -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="./full.js/sell.js" defer></script>
   <script src="./full.js/signin-signout.js" defer></script>
+  <script src="./full.js/common.js"></script>
 </body>
 </html>

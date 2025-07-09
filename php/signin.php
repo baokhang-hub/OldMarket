@@ -1,4 +1,6 @@
 <?php
+session_start(); // Thêm dòng này để sử dụng session
+
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -20,7 +22,12 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if ($user && password_verify($password, $user['password'])) {
-    echo json_encode(["status" => "success", "fullname" => $user['fullname']]);
+    $_SESSION['user_id'] = $user['id']; // ✅ Lưu user_id vào session
+
+    echo json_encode([
+        "status" => "success",
+        "fullname" => $user['fullname']
+    ]);
 } else {
     http_response_code(401);
     echo json_encode(["status" => "error", "message" => "Incorrect email or password"]);

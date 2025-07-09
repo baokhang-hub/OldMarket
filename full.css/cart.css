@@ -11,7 +11,6 @@
   background: #fff;
   padding: 24px 32px;
   border-radius: 10px;
-  /* BỎ DÒNG text-align: center; Ở ĐÂY */
   min-width: 320px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   position: relative;
@@ -55,7 +54,6 @@
 /* Styles cho container chính của phần chuyển khoản */
 #bank-info {
   width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng có thể */
-  /* Loại bỏ text-align: left; ở đây để flex container con quản lý căn chỉnh */
   margin-top: 16px;
   padding: 0 10px; /* Thêm padding hai bên */
   box-sizing: border-box;
@@ -82,7 +80,6 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end; /* Căn lề phải nội dung trong cột QR */
-    /* flex-shrink: 0; */ /* Ngăn không cho cột này co lại nếu không gian hạn chế */
     min-width: 220px; /* Đảm bảo đủ rộng cho QR code */
     max-width: 220px; /* Cố định chiều rộng của cột QR */
 }

@@ -46,7 +46,7 @@
         .pro-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            justify-content: flex-start;
+            justify-content: center;
             gap: 28px;
             padding: 30px 40px;
             background: #fff;
@@ -506,63 +506,103 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.07);
         }
 
-        /* --- Modal styles --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.55);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 34px 28px 28px 28px;
-            border-radius: 10px;
-            max-width: 420px;
-            width: 92%;
-            position: relative;
-            box-shadow: 0 10px 36px rgba(0,0,0,0.19);
-            animation: modalFadeIn 0.25s;
-        }
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.96);}
-            to { opacity: 1; transform: scale(1);}
-        }
-        .close-modal {
-            position: absolute;
-            top: 12px; right: 18px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #888;
-            transition: color 0.2s;
-        }
-        .close-modal:hover, .close-modal:focus {
-            color: #e74c3c;
-        }
-        .add-to-cart-btn {
-            background: #222;
-            color: #fff;
-            border: none;
-            padding: 9px 22px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 12px;
-            font-size: 17px;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-        }
-        .add-to-cart-btn:hover, .add-to-cart-btn:focus {
-            background: #f7b731;
-            color: #222;
-        }
-        .add-to-cart-btn[disabled] {
-            background: #ccc !important;
-            color: #888 !important;
-            cursor: not-allowed !important;
-        }
+        /* --- Modal Masterclass --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 36px 32px;
+    border-radius: 14px;
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+@keyframes modalFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 26px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.25s, transform 0.2s;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: #e74c3c;
+    transform: rotate(90deg) scale(1.1);
+}
+
+.modal h2, .modal h3 {
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 22px;
+    color: #1d3557;
+}
+
+.modal p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #444;
+    margin-bottom: 12px;
+}
+
+/* CTA Button */
+.add-to-cart-btn {
+    background: linear-gradient(145deg, #1d3557, #457b9d);
+    color: #fff;
+    padding: 11px 26px;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 20px rgba(69, 123, 157, 0.25);
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.add-to-cart-btn:hover,
+.add-to-cart-btn:focus {
+    background: #f1c40f;
+    color: #222;
+    box-shadow: 0 8px 24px rgba(241, 196, 15, 0.4);
+}
+
+.add-to-cart-btn[disabled] {
+    background: #ddd !important;
+    color: #999 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+}
+
         .modal-wishlist-btn {
             background: #fff;
             color: #e74c3c;
@@ -581,34 +621,156 @@
             color: #fff;
         }
 
-        /* --- Pagination --- */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin: 34px 0 12px 0;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .pagination button {
-            background: #fff;
-            border: 1.2px solid #bbb;
-            color: #222;
-            padding: 7px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 15.5px;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-        }
-        .pagination button.active, .pagination button:hover, .pagination button:focus {
-            background: #222;
-            color: #fff;
-        }
-        .pagination button[disabled] {
-            background: #eee !important;
-            color: #bbb !important;
-            cursor: not-allowed !important;
-        }
+ #bidForm {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+#bidForm input {
+    display: block;
+    width: 100%;
+    margin: 12px 0;
+    padding: 14px 16px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: all 0.25s ease;
+    background-color: #fff;
+}
+
+#bidForm input:focus {
+    border-color: #457b9d;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.25);
+    outline: none;
+}
+
+#bidForm input::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+#bidForm button {
+    padding: 14px;
+    background: linear-gradient(135deg, #1d3557, #457b9d);
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#bidForm button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #1a2c4b, #3a6a95);
+}
+
+#bidForm button:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 480px) {
+    #bidForm {
+        padding: 15px;
+    }
+
+    #bidForm input,
+    #bidForm button {
+        font-size: 15px;
+        padding: 12px;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+        /* --- Pagination Enhanced --- */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 40px 0 20px;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.pagination button {
+    padding: 10px 18px;
+    font-size: 15.5px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.pagination button:hover {
+    background: #457b9d;
+    color: #fff;
+    border-color: #457b9d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(69, 123, 157, 0.2);
+}
+
+.pagination button.active {
+    background: #1d3557;
+    color: #fff;
+    border-color: #1d3557;
+    font-weight: 600;
+}
+
+.pagination button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.25);
+}
+
+.pagination button[disabled] {
+    background: #eee;
+    color: #bbb;
+    cursor: not-allowed;
+    border-color: #ddd;
+    box-shadow: none;
+}
+
+@media (max-width: 480px) {
+    .pagination {
+        gap: 8px;
+        padding: 6px;
+    }
+
+    .pagination button {
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+}
 
         /* --- Responsive --- */
         @media (max-width: 1000px) {

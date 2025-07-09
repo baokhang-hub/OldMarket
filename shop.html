@@ -7,6 +7,57 @@
     <link rel="stylesheet" href="./full.css/home.css">
     <link rel="stylesheet" href="./full.css/shop.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        .modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 60px;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.close-modal {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+}
+.close-modal:hover,
+.close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#last-bidder-info {
+    background: #f1faee;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+#last-bidder-info span {
+    display: block;
+    margin: 4px 0;
+}
+#last-bidder-info strong {
+    color: #1d3557;
+}
+    </style>
 </head>
 <body>
 
@@ -39,45 +90,33 @@
 
     <!-- Search and Filter -->
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search products...">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
         <button onclick="searchProducts()">Search</button>
-        <label>
-            <input type="checkbox" id="inStockFilter" onchange="filterProducts()">
-            In Stock Only
-        </label>
-        </div>
     </div>
     <!-- Filter Bar: Thêm phân khúc sản phẩm -->
-    <div class="filter-bar">
-        <select id="segmentFilter" onchange="filterProducts()">
-            <option value="">All Segments</option>
-            <option value="binhdan">Affordable</option>
-            <option value="hieu">Branded</option>
-            <option value="hieu-auction">Branded (Auction)</option>
-            <option value="hieu-noauction">Branded (Non-Auction)</option>
+ <div class="filter-bar">
+    <select id="categoryFilter">
         </select>
-        <select id="brandFilter" onchange="filterProducts()">
-            <option value="">All Brands</option>
-            <option value="Name Brand">Name Brand</option>
-            <option value="Vintage">Vintage</option>
-            <option value="Classic">Classic</option>
+    <select id="subcategoryFilter">
         </select>
-        <select id="priceFilter" onchange="filterProducts()">
-            <option value="">All Prices</option>
-            <option value="low">Under $20</option>
-            <option value="mid">$20 - $50</option>
-            <option value="high">Above $50</option>
-        </select>
-        <select id="sortSelect" onchange="sortProducts()">
-            <option value="">Sort By</option>
-            <option value="price-asc">Price: Low → High</option>
-            <option value="price-desc">Price: High → Low</option>
-            <option value="star-desc">Rating: High → Low</option>
-            <option value="star-asc">Rating: Low → High</option>
-            <option value="name-asc">Name: A → Z</option>
-            <option value="name-desc">Name: Z → A</option>
-        </select>
-    </div>
+    <select id="segmentFilter">
+        <option value="">Phân khúc</option>
+        <option value="binhdan">Bình dân</option>
+        <option value="hieu">Hàng hiệu</option>
+        <option value="daugia">Đấu giá</option>
+    </select>
+    <input type="checkbox" id="newProductFilter">
+    <label for="newProductFilter">Sản phẩm mới</label>
+    <input type="checkbox" id="auctionFilter">
+    <label for="auctionFilter">Đấu giá</label>
+    <select id="sortSelect" onchange="sortProducts()">
+        <option value="">Sắp xếp</option>
+        <option value="price-asc">Giá tăng dần</option>
+        <option value="price-desc">Giá giảm dần</option>
+        <option value="name-asc">Tên A-Z</option>
+        <option value="name-desc">Tên Z-A</option>
+    </select>
+</div>
     <!-- Shop Section -->
     <section id="product1" class="section-p1">
         <h2>New Arrivals</h2>
@@ -159,5 +198,51 @@
     <script src="./full.js/home.js"></script>
     <script src="./full.js/shop.js"></script>
     <script src=".full.js/signin-signout.js" ></script>
+    <script src="./full.js/common.js"></script>
+    <script>
+    function openAuctionModal(productId) {
+    const product = PRODUCTS.find(p => p.id === productId);
+    if (!product || !product.auction?.enabled) return;
+
+    // Nếu chưa có currentBid, thì gán nó bằng giá sản phẩm ban đầu
+    if (!product.auction.currentBid) {
+        product.auction.currentBid = product.price;
+    }
+
+    const modalContent = document.getElementById('auctionModalContent');
+
+    modalContent.innerHTML = `
+        <span class="close-modal" onclick="closeAuctionModal()" style="position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; max-width: 500px; margin: auto; font-family: Arial, sans-serif;">
+            <img src="${product.imgSrc}" alt="${product.title}" style="width: 100%; max-width: 300px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <h2 style="margin-bottom: 10px;">${product.title}</h2>
+            <p style="margin: 6px 0;"><strong>💰 Giá hiện tại:</strong> <span style="color: #e63946; font-weight: bold;">${parseFloat(product.auction.currentBid).toLocaleString('vi-VN')}₫</span></p>
+            <p style="margin: 6px 0;"><strong>⏰ Thời gian còn lại:</strong> <span id="auction-time-left" style="color: #457b9d;">${formatTimeLeft(product.auction.endTime)}</span></p>
+
+            <form onsubmit="submitBid(event)" style="width: 100%; margin-top: 20px;">
+                <input type="text" id="bidder-name" placeholder="👤 Tên của bạn" required
+                       style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc;">
+                <input type="email" id="bidder-email" placeholder="✉️ Email của bạn" required
+                       style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc;">
+                <input type="number" id="bid-amount" placeholder="💸 Giá bạn muốn đặt (₫)" required
+                       style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;">
+                <button type="submit"
+                        style="width: 100%; background-color: #1d3557; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
+                    Đặt giá ngay
+                </button>
+            </form>
+        </div>
+    `;
+
+    // Gán lại currentProduct để dùng cho submit
+    currentProduct = product;
+
+    // Mở modal
+    document.getElementById('auctionModal').style.display = 'block';
+
+    // Bắt đầu cập nhật thời gian còn lại mỗi giây
+    startAuctionTimer();
+}
+</script>
 </body>
 </html>

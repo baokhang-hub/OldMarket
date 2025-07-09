@@ -74,7 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const name = productCard.querySelector(".des h5").innerText;
             const priceText = productCard.querySelector(".des h4").innerText;
             const imgSrc = productCard.querySelector("img").src;
-            const price = parseFloat(priceText.replace(/[^\d.]/g, '')) || 0;
+            // Loại bỏ '₫' và dấu '.' phân cách hàng nghìn
+            const cleanedPriceString = priceText.replace(/₫/g, '').replace(/\./g, '').trim();
+            const price = parseFloat(cleanedPriceString) || 0;
 
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
             const existing = cart.find(item => item.name === name && item.price === price && item.imgSrc === imgSrc);
