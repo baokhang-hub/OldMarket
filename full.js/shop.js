@@ -2,6 +2,7 @@
 
 // --- Product Data ---
 // Lấy danh sách bài đã duyệt từ localStorage
+<<<<<<< HEAD
 const APPROVED_POSTS = JSON.parse(localStorage.getItem('approved_posts')) || [];
 
 // Chuyển định dạng bài duyệt thành sản phẩm hoàn chỉnh
@@ -308,6 +309,20 @@ const FIXED_PRODUCTS = [
     price: 185000
   }
 ];
+=======
+        const APPROVED_POSTS = JSON.parse(localStorage.getItem('approved_posts')) || [];
+
+        // Chuyển định dạng bài duyệt thành sản phẩm hoàn chỉnh
+        const PRODUCTS = APPROVED_POSTS.map((p, index) => ({
+        ...p,
+        id: 1000 + index, // id tự tạo cao để tránh trùng
+        stars: p.stars || 4,
+        inStock: true,
+        isNew: true,
+        auction: { enabled: false },
+        segment: "binhdan"
+        }));
+>>>>>>> 664a50f56259e8dbaecf59756bcc462e06937974
 
 const PRODUCTS = [
     ...FIXED_PRODUCTS,
