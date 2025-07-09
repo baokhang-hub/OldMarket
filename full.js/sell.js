@@ -306,14 +306,10 @@ sellForm.addEventListener("submit", function (e) {
   const category = categoryInput.value;
   const subcategory = subcategoryInput.value;
   const condition = document.getElementById("condition").value;
-<<<<<<< HEAD
   // Lấy giá trị từ priceInput và loại bỏ tất cả các dấu chấm (.)
   const cleanedPriceString = priceInput.value.replace(/\./g, '');
   // Chuyển đổi chuỗi đã làm sạch thành số thực
   const price = parseFloat(cleanedPriceString); 
-=======
-  const price = priceInput.value;
->>>>>>> 664a50f56259e8dbaecf59756bcc462e06937974
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
   const address = addressInput.value;
